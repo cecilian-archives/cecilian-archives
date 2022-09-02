@@ -7,7 +7,7 @@
     @apply font-body scroll-smooth;
   }
   body {
-    @apply min-h-screen text-black transition-all;
+    @apply min-h-screen text-black transition-all bg-solid-gradient;
   }
   h1,
   h2,
@@ -15,7 +15,7 @@
   h4,
   h5,
   h6 {
-    @apply font-title font-bold;
+    @apply font-title;
   }
   p {
     @apply text-gray-800;

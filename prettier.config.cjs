@@ -5,5 +5,6 @@ module.exports = {
   semi: true,
   singleQuote: false,
   arrowParens: "always",
+  printWidth: 100,
   overrides: [],
 };
