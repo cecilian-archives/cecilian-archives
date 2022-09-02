@@ -3,10 +3,385 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgres"
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
+// ---------------------------------------------------------
+//
+//  USERS AND PROFILES
+//
+// ---------------------------------------------------------
+
+model User {
+    id              String       @id @default(cuid())
+    userUid         String       @unique
+    profile         UserProfile? @relation("ProfileOwner")
+    verifiedByKey   AccessKey    @relation("AccessKeyUser", fields: [verifiedByKeyId], references: [id])
+    verifiedByKeyId String
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    archiveItemsCreated ArchiveItem[] @relation("ItemCreatedBy")
+    archiveItemsUpdated ArchiveItem[] @relation("ItemUpdatedBy")
+    archiveItemsDeleted ArchiveItem[] @relation("ItemDeletedBy")
+    archiveFilesCreated ArchiveFile[] @relation("FileCreatedBy")
+    archiveFilesUpdated ArchiveFile[] @relation("FileUpdatedBy")
+    archiveFilesDeleted ArchiveFile[] @relation("FileDeletedBy")
+
+    collections          ArchiveCollection[] @relation("CollectionOwner")
+    collectionsCreated   ArchiveCollection[] @relation("CollectionCreatedBy")
+    collectionsUpdated   ArchiveCollection[] @relation("CollectionUpdatedBy")
+    collectionsDeleted   ArchiveCollection[] @relation("CollectionDeletedBy")
+    collectionItemsAdded CollectionItem[]    @relation("CollectionItemAddedBy")
+}
+
+model UserRole {
+    roleName SystemRole
+    userUid  String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    @@id([roleName, userUid])
+}
+
+enum SystemRole {
+    superAdmin
+    archiveTeam
+    pastPresident
+    currentPresident
+    currentExec
+    currentCommittee
+}
+
+model UserProfile {
+    id         String      @id @default(cuid())
+    user       User        @relation("ProfileOwner", fields: [userId], references: [id])
+    userId     String      @unique
+    cecilian   Cecilian?   @relation("ProfileCecilian", fields: [cecilianId], references: [id])
+    cecilianId String?     @unique
+    accessKeys AccessKey[] @relation("AccessKeyOwner")
+
+    title          String?
+    firstNames     String?
+    lastNames      String?
+    otherNames     String?
+    picture        String?
+    contactDetails UserContact[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+model UserContact {
+    id            String                @id @default(cuid())
+    userProfile   UserProfile           @relation(fields: [userProfileId], references: [id])
+    userProfileId String
+    type          UserContactType
+    customType    String?
+    value         String
+    notes         String?
+    visibility    UserContactVisibility @default(VISIBLE)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+enum UserContactType {
+    ADDRESS
+    EMAIL
+    PHONE
+    CUSTOM
+}
+
+enum UserContactVisibility {
+    VISIBLE
+    HIDDEN
+}
+
+model AccessKey {
+    id      String       @id @default(cuid())
+    key     String       @unique
+    owner   UserProfile? @relation("AccessKeyOwner", fields: [ownerId], references: [id])
+    ownerId String?
+    usedBy  User[]       @relation("AccessKeyUser")
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+// ---------------------------------------------------------
+//
+//  CECILIANS AND ARCHIVE ITEMS
+//
+// ---------------------------------------------------------
+
+model Cecilian {
+    id          String  @id @default(cuid())
+    displayName String
+    otherNames  String?
+
+    user                 UserProfile?          @relation("ProfileCecilian")
+    tags                 CecilianTag[] /// Years, Events, Roles
+    inArchiveItems       ArchiveItemCecilian[]
+    authoredArchiveItems ArchiveItem[]         @relation("ItemAuthor")
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+model ArchiveItemCecilian {
+    cecilian   Cecilian    @relation(fields: [cecilianId], references: [id])
+    cecilianId String
+    item       ArchiveItem @relation(fields: [itemId], references: [id])
+    itemId     String
+    createdAt  DateTime    @default(now())
+    deletedAt  DateTime?
+
+    @@id([cecilianId, itemId])
+}
+
+model ArchiveItem {
+    id             String          @id @default(cuid())
+    archiveRef     String
+    type           ArchiveItemType
+    associatedDate DateTime?
+    notes          String?
+
+    collections CollectionItem[]
+    author      Cecilian?             @relation("ItemAuthor", fields: [authorId], references: [id])
+    authorId    String?
+    tags        ArchiveItemTag[] /// Years, Events, Roles
+    cecilians   ArchiveItemCecilian[]
+    files       ArchiveItemFile[]
+
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    deletedAt   DateTime?
+    createdBy   User?     @relation("ItemCreatedBy", fields: [createdById], references: [id])
+    createdById String?
+    updatedBy   User?     @relation("ItemUpdatedBy", fields: [updatedById], references: [id])
+    updatedById String?
+    deletedBy   User?     @relation("ItemDeletedBy", fields: [deletedById], references: [id])
+    deletedById String?
+}
+
+enum ArchiveItemType {
+    MINUTES
+    PHOTOS
+}
+
+model ArchiveFile {
+    id   String          @id @default(cuid())
+    kind ArchiveFileKind
+
+    name  String
+    notes String?
+    url   String
+    items ArchiveItemFile[]
+
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    deletedAt   DateTime?
+    createdBy   User?     @relation("FileCreatedBy", fields: [createdById], references: [id])
+    createdById String?
+    updatedBy   User?     @relation("FileUpdatedBy", fields: [updatedById], references: [id])
+    updatedById String?
+    deletedBy   User?     @relation("FileDeletedBy", fields: [deletedById], references: [id])
+    deletedById String?
+}
+
+enum ArchiveFileKind {
+    TRANSCRIPTION
+    SCAN
+    PREVIOUSLY_DIGITISED
+    CREATED_DIGITALLY
+}
+
+model ArchiveItemFile {
+    file   ArchiveFile @relation(fields: [fileId], references: [id])
+    fileId String
+    item   ArchiveItem @relation(fields: [itemId], references: [id])
+    itemId String
+
+    createdAt DateTime  @default(now())
+    deletedAt DateTime?
+
+    @@unique([fileId, itemId])
+}
+
+// ---------------------------------------------------------
+//
+//  TAGS AND THEIR RELATIONSHIPS
+//
+// ---------------------------------------------------------
+
+model Year {
+    id        Int       @id /// e.g. 0 for 1952-53, 1 for 1953-54 etc.
+    name      String    @unique /// e.g. 2010-2011
+    startDate DateTime?
+    endDate   DateTime?
+
+    eventsWhereInherent Event[]
+    inTags              Tag[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+model Event {
+    id             String    @id @default(cuid())
+    type           EventType
+    name           String
+    inherentYear   Year?     @relation(fields: [inherentYearId], references: [id])
+    inherentYearId Int?
+    startDate      DateTime?
+    endDate        DateTime?
+
+    inTags Tag[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+enum EventType {
+    SHOW /// Has inherent Year
+    ANNIVERSARY /// Has inherent Year
+    EVENT /// DOES NOT have inherent Year
+}
+
+model Role {
+    id   String   @id @default(cuid())
+    type RoleType
+    name String
+
+    inTags Tag[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+enum RoleType {
+    SOCIETY /// Should be paired with a Year
+    COMMITTEE /// Should be paired with a Year
+    PRODUCTION /// Should be paired with an Event (probably a Show, which has an inherent Year)
+    PERFORMANCE /// Should be paired with an Event (probably a Show, which has an inherent Year)
+}
+
+model Tag {
+    id      String  @id @default(cuid())
+    type    TagType
+    role    Role?   @relation(fields: [roleId], references: [id])
+    roleId  String?
+    event   Event?  @relation(fields: [eventId], references: [id])
+    eventId String?
+    year    Year?   @relation(fields: [yearId], references: [id])
+    yearId  Int?
+
+    cecilians    CecilianTag[]
+    archiveItems ArchiveItemTag[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+enum TagType {
+    YEAR
+    EVENT
+    ROLE
+}
+
+model CecilianTag {
+    id         String   @id @default(cuid())
+    cecilian   Cecilian @relation(fields: [cecilianId], references: [id])
+    cecilianId String
+    tag        Tag      @relation(fields: [tagId], references: [id])
+    tagId      String
+
+    createdAt DateTime  @default(now())
+    deletedAt DateTime?
+}
+
+model ArchiveItemTag {
+    id     String      @id @default(cuid())
+    item   ArchiveItem @relation(fields: [itemId], references: [id])
+    itemId String
+    tag    Tag         @relation(fields: [tagId], references: [id])
+    tagId  String
+
+    createdAt DateTime  @default(now())
+    deletedAt DateTime?
+}
+
+// ---------------------------------------------------------
+//
+//  COLLECTIONS
+//
+// ---------------------------------------------------------
+
+model ArchiveCollection {
+    id               String                @id @default(cuid())
+    type             ArchiveCollectionType
+    name             String
+    description      String?
+    physicalLocation String? /// only relevant for type: PHYSICAL
+
+    items     CollectionItem[]
+    owner     User?                      @relation("CollectionOwner", fields: [ownerId], references: [id])
+    ownerId   String?
+    viewPerms ArchiveCollectionViewLevel @default(PUBLIC)
+    editPerms ArchiveCollectionEditLevel @default(OPEN)
+
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    deletedAt   DateTime?
+    createdBy   User?     @relation("CollectionCreatedBy", fields: [createdById], references: [id])
+    createdById String?
+    updatedBy   User?     @relation("CollectionUpdatedBy", fields: [updatedById], references: [id])
+    updatedById String?
+    deletedBy   User?     @relation("CollectionDeletedBy", fields: [deletedById], references: [id])
+    deletedById String?
+}
+
+enum ArchiveCollectionType {
+    PHYSICAL
+    SYSTEM
+    USER
+}
+
+enum ArchiveCollectionViewLevel {
+    PUBLIC
+    PRIVATE
+}
+
+enum ArchiveCollectionEditLevel {
+    OPEN
+    CLOSED
+}
+
+model CollectionItem {
+    id           String            @id @default(cuid())
+    collection   ArchiveCollection @relation(fields: [collectionId], references: [id])
+    collectionId String
+    item         ArchiveItem       @relation(fields: [itemId], references: [id])
+    itemId       String
+    itemIndex    String? /// e.g. P1, the index of this item in collection A1
+
+    addedBy   User?   @relation("CollectionItemAddedBy", fields: [addedById], references: [id])
+    addedById String?
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 }
