@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 import { motion } from "framer-motion";
 import useConfetti from "../utils/useConfetti";
-// import ImageFader from "../components/ImageFader";
+import ImageFader from "../components/ImageFader";
 import ButtonLink from "../components/ButtonLink";
 
 const Home: NextPage = () => {
@@ -10,7 +10,8 @@ const Home: NextPage = () => {
 
   return (
     <main className="relative w-screen min-h-screen">
-      <div className="absolute inset-0 flex flex-col justify-center items-center p-8 border-b-8 border-brightYellow bg-solid-gradient">
+      <ImageFader />
+      <div className="absolute inset-0 flex flex-col justify-center items-center p-8 border-b-8 border-archiveYellow-500 bg-hero-gradient">
         <motion.div
           animate={{ y: ["7%", "0%"], opacity: [0, 1] }}
           transition={{ duration: 0.9 }}
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
             className="w-auto max-h-14 border border-deepBlue-105 rounded-xl mt-8 md:mt-0"
           />
           <div className="text-center text-white p-8">
-            <h2 className="text-4xl border-b border-brightYellow pb-4">Welcome to the</h2>
+            <h2 className="text-4xl border-b border-archiveYellow-500 pb-4">Welcome to the</h2>
             <h1 className="text-7xl pt-3">Cecilian Archives</h1>
           </div>
         </motion.div>

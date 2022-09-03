@@ -7,7 +7,7 @@
     @apply font-body scroll-smooth;
   }
   body {
-    @apply min-h-screen text-black transition-all bg-solid-gradient;
+    @apply min-h-screen text-black transition-all;
   }
   h1,
   h2,
@@ -23,6 +23,9 @@
 }
 
 @layer utilities {
+  .gradient-background {
+    @apply bg-archiveBlue-500 bg-gradient-to-t from-archiveBlue-600 to-archiveBlue-400;
+  }
   .table-cell {
     @apply px-4 py-2 border border-black text-center;
   }

@@ -72,11 +72,10 @@ module.exports = {
         body: ["Lato", "sans-serif"],
       },
       backgroundImage: (theme) => {
-        const base = transparentize(0.05, theme("colors.deepBlue.95"));
-        const top = transparentize(0.2, theme("colors.deepBlue.93"));
+        const base = transparentize(0.05, theme("colors.archiveBlue.500"));
+        const top = transparentize(0.2, theme("colors.archiveBlue.500"));
         return {
           "hero-gradient": `linear-gradient(to top, ${base}, ${top})`,
-          "solid-gradient": `linear-gradient(to top, ${theme("colors.deepBlue.95")}, ${theme("colors.deepBlue.85")})`,
         };
       },
     },
