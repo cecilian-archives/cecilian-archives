@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 import Link from "next/link";
 import LoadingIndicator from "./LoadingIndicator";
 
@@ -14,16 +14,18 @@ interface LinkProps extends ButtonLinkBase {
   to: string;
   target?: string;
   onClick?: () => void;
+  buttonType: never;
 }
 interface ButtonProps extends ButtonLinkBase {
   to?: never;
   target?: never;
   onClick: () => void;
+  buttonType?: "button" | "submit" | "reset";
 }
 type ButtonLinkProps = ButtonProps | LinkProps;
 
 const baseClasses =
-  "my-2 flex justify-center gap-4 align-items-center text-center py-2 px-6 rounded-md shadow-md text-lg md:text-base hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-transparent";
+  "my-2 flex justify-center gap-4 items-center text-center py-2 px-6 rounded-md shadow-md text-lg md:text-base hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-transparent";
 const variantClasses = {
   solid: {
     primary:
@@ -53,6 +55,7 @@ const ButtonLink = forwardRef(
       variant = "solid",
       colour = "primary",
       width = "fixed",
+      buttonType = undefined,
       className,
       children,
     }: ButtonLinkProps,
@@ -63,6 +66,7 @@ const ButtonLink = forwardRef(
       <RootElement
         href={to as string}
         target={target}
+        type={RootElement === "button" ? buttonType : undefined}
         onClick={onClick}
         className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${className}`}
         ref={ref}

@@ -11,6 +11,7 @@ const Home: NextPage = () => {
   return (
     <main className="relative w-screen min-h-screen">
       <ImageFader />
+
       <div className="absolute inset-0 flex flex-col justify-center items-center p-8 border-b-8 border-archiveYellow-500 bg-hero-gradient">
         <motion.div
           animate={{ y: ["7%", "0%"], opacity: [0, 1] }}
@@ -28,6 +29,7 @@ const Home: NextPage = () => {
             <h1 className="text-7xl pt-3">Cecilian Archives</h1>
           </div>
         </motion.div>
+
         <motion.div
           animate={{ opacity: [0, 1] }}
           transition={{ duration: 0.7, delay: 0.9 }}

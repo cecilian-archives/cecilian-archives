@@ -12,11 +12,11 @@ const useConfetti = ({ autoFire = false } = {}) => {
     angle: 90,
     spread: isMobile ? 90 : 120,
     gravity: 1.4,
-    colors: ["#0f5996", "#ffc71e"],
+    colors: ["#1a4970", "#ffc71e"],
     scalar: 1,
     disableForReducedMotion: true,
     drift: 0,
-    origin: { x: 0.5, y: 0.2 },
+    origin: { x: 0.5, y: 0.3 },
     ticks: 250,
   };
   const fireConfetti = () => {
