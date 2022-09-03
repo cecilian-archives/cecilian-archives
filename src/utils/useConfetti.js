@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useWindowWidth from "./useWindowWidth";
+import useWindowWidth from "src/utils/useWindowWidth";
 import confetti from "canvas-confetti";
 
 const tailwindBreakpointMd = 768;

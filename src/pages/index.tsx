@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 
 import { motion } from "framer-motion";
-import useConfetti from "../utils/useConfetti";
-import ImageFader from "../components/ImageFader";
-import ButtonLink from "../components/ButtonLink";
+import useConfetti from "src/utils/useConfetti";
+import ImageFader from "src/components/ImageFader";
+import ButtonLink from "src/components/ButtonLink";
 
 const Home: NextPage = () => {
   const fireConfetti = useConfetti();
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
           <p className="text-center text-white text-lg">
             But right now, the 70th Anniversary celebrations are taking shape!
           </p>
-          <ButtonLink className="mt-8" onClick={() => {}} variant="solid" colour="secondary">
+          <ButtonLink to="/70th" className="mt-8" variant="solid" colour="secondary">
             View the 70th plans
           </ButtonLink>
         </motion.div>

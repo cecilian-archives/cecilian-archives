@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ButtonLink from "./ButtonLink";
+import ButtonLink from "src/components/ButtonLink";
 
 const EmailCollectionForm = () => {
   const {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useInterval } from "../utils/useInterval";
+import { useInterval } from "src/utils/useInterval";
 
 const images = [
   "Pippin.jpg",

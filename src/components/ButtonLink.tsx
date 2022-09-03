@@ -1,6 +1,6 @@
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import { forwardRef } from "react";
 import Link from "next/link";
-import LoadingIndicator from "./LoadingIndicator";
+import LoadingIndicator from "src/components/LoadingIndicator";
 
 interface ButtonLinkBase {
   className?: string;
@@ -14,7 +14,7 @@ interface LinkProps extends ButtonLinkBase {
   to: string;
   target?: string;
   onClick?: () => void;
-  buttonType: never;
+  buttonType?: never;
 }
 interface ButtonProps extends ButtonLinkBase {
   to?: never;
@@ -71,8 +71,20 @@ const ButtonLink = forwardRef(
         className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${className}`}
         ref={ref}
       >
-        {loading && <LoadingIndicator />}
-        {children}
+        {RootElement === "button" ? (
+          <>
+            {loading && <LoadingIndicator />}
+            {children}
+          </>
+        ) : RootElement === Link ? (
+          <a
+            className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${className}`}
+          >
+            {children}
+          </a>
+        ) : (
+          children
+        )}
       </RootElement>
     );
   }
