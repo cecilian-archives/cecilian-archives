@@ -1,17 +1,10 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
-
 import Layout70th from "src/components/70th/Layout70th";
-import { motion } from "framer-motion";
-import StarDivider from "src/components/StarDivider";
 
 const Tickets70th: NextPageWithLayout = () => {
   return (
-    <motion.section
-      animate={{ opacity: [0, 1] }}
-      transition={{ duration: 0.7, delay: 0.9 }}
-      className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between"
-    >
+    <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
       <div className="w-full max-w-prose mx-auto">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Ticket Prices</h2>
         <p className="py-4 text-lg">
@@ -42,7 +35,7 @@ const Tickets70th: NextPageWithLayout = () => {
           className="max-w-full lg:max-w-lg my-8 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
         />
       </a>
-    </motion.section>
+    </section>
   );
 };
 

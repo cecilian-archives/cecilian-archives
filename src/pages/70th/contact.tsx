@@ -1,17 +1,12 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
-
 import Layout70th from "src/components/70th/Layout70th";
-import { motion } from "framer-motion";
+
 import ButtonLink from "src/components/ButtonLink";
 
 const Contact70th: NextPageWithLayout = () => {
   return (
-    <motion.section
-      animate={{ opacity: [0, 1] }}
-      transition={{ duration: 0.7, delay: 0.9 }}
-      className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between"
-    >
+    <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
       <div className="max-w-prose mx-4">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Contact the Team</h2>
         <p className="text-lg py-4">
@@ -38,7 +33,7 @@ const Contact70th: NextPageWithLayout = () => {
           Alumni Facebook Group
         </ButtonLink>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

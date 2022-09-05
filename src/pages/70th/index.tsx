@@ -1,19 +1,14 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
-
 import Layout70th from "src/components/70th/Layout70th";
-import { motion } from "framer-motion";
-import StarDivider from "src/components/StarDivider";
+
 import ButtonLink from "src/components/ButtonLink";
+import StarDivider from "src/components/StarDivider";
 
 const Home70th: NextPageWithLayout = () => {
   return (
     <>
-      <motion.section
-        animate={{ opacity: [0, 1] }}
-        transition={{ duration: 0.7 }}
-        className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between"
-      >
+      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">
             Let the celebrations begin!
@@ -28,13 +23,9 @@ const Home70th: NextPageWithLayout = () => {
             planned on each day, and how to take part.
           </p>
         </div>
-      </motion.section>
+      </section>
 
-      <motion.section
-        animate={{ opacity: [0, 1] }}
-        transition={{ duration: 0.7 }}
-        className="w-full bg-archiveYellow-50 p-10 md:py-8"
-      >
+      <section className="w-full bg-archiveYellow-50 p-10 md:py-8">
         <div className="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">Running Order</h2>
 
@@ -125,13 +116,9 @@ const Home70th: NextPageWithLayout = () => {
             </a>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      <motion.section
-        animate={{ opacity: [0, 1] }}
-        transition={{ duration: 0.7 }}
-        className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between"
-      >
+      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">What now?</h2>
           <p className="text-center text-lg py-4">
@@ -146,7 +133,7 @@ const Home70th: NextPageWithLayout = () => {
         <ButtonLink to="/70th/concert" variant="solid" colour="secondary" className="mb-6">
           Concert Breakdown
         </ButtonLink>
-      </motion.section>
+      </section>
     </>
   );
 };
