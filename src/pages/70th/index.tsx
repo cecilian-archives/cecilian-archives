@@ -8,7 +8,7 @@ import StarDivider from "src/components/StarDivider";
 const Home70th: NextPageWithLayout = () => {
   return (
     <>
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">
             Let the celebrations begin!
@@ -25,7 +25,7 @@ const Home70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveYellow-50 p-10 md:py-8">
+      <section className="w-full bg-archiveYellow-50 p-8">
         <div className="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">Running Order</h2>
 
@@ -118,7 +118,7 @@ const Home70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">What now?</h2>
           <p className="text-center text-lg py-4">

@@ -42,7 +42,7 @@ const variantClasses = {
   },
 };
 const widthClasses = {
-  fixed: "w-56 max-w-full ",
+  fixed: "w-56 max-w-full",
   adaptive: "w-max max-w-full min-w-[14rem]", // 14rem = w-56
 };
 
@@ -56,9 +56,9 @@ const ButtonLink = forwardRef(
       variant = "solid",
       colour = "primary",
       textColour = "dark",
-      width = "fixed",
+      width = "adaptive",
       buttonType = undefined,
-      className,
+      className = "",
       children,
     }: ButtonLinkProps,
     ref?: React.Ref<any>
@@ -82,7 +82,7 @@ const ButtonLink = forwardRef(
           </>
         ) : RootElement === Link ? (
           <a
-            className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${className}`}
+            className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${textClasses} ${className}`}
           >
             {children}
           </a>

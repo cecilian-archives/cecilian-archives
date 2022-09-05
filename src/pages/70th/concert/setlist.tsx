@@ -7,11 +7,11 @@ import ButtonLink from "src/components/ButtonLink";
 
 const ConcertSetlist70th: NextPageWithLayout = () => {
   return (
-    <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+    <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
       <div className="max-w-prose">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Concert Setlist</h2>
         <h3 className="text-gray-900 text-2xl pt-4">Act One</h3>
-        <ol className="py-4 px-10 list-decimal">
+        <ol className="py-4 px-6 md:px-10 list-decimal">
           <li>
             <b>Hail Poetry</b>, <i>The Pirates of Penzance</i>{" "}
             <span className="text-sm text-gray-500">(full)</span>
@@ -61,7 +61,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
         </ol>
         <StarDivider bgClass="bg-archiveBlue-50" />
         <h3 className="text-gray-900 text-2xl pt-4">Act Two</h3>
-        <ol className="py-4 px-10 list-decimal">
+        <ol className="py-4 px-6 md:px-10 list-decimal">
           <li>
             <b>Zombie Prom</b>, <i>Zombie Prom</i>{" "}
             <span className="text-sm text-gray-500">(full, featured 1hv 1lv)</span>

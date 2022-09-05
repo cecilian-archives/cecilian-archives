@@ -8,7 +8,7 @@ import ButtonLink from "src/components/ButtonLink";
 const Concert70th: NextPageWithLayout = () => {
   return (
     <>
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-4 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl pt-4 pb-2">Concert Breakdown</h2>
           <p className="text-lg py-4">
@@ -52,7 +52,7 @@ const Concert70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveYellow-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveYellow-50 p-8 px-4 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h3 className="text-gray-900 text-3xl pt-4 pb-2">What's Happening?</h3>
           <p className="text-lg py-4">
@@ -82,7 +82,7 @@ const Concert70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-4 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h3 className="text-gray-900 text-3xl pt-4 pb-2">Production Team and Performers</h3>
           <p className="text-lg py-4">
@@ -190,7 +190,7 @@ const Concert70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveYellow-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveYellow-50 p-8 px-4 flex flex-col items-center md:max-w-full md:justify-between">
         <h3 className="text-gray-900 text-3xl text-center pt-4 pb-2">Fill in the Form!</h3>
         <p className="text-lg text-center py-4 max-w-prose">
           If you've read this far, hopefully it's clear by now that no matter what you're interested
