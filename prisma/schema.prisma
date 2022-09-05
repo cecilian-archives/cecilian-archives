@@ -385,3 +385,30 @@ model CollectionItem {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 }
+
+// ---------------------------------------------------------
+//
+//  MAILING LISTS
+//
+// ---------------------------------------------------------
+
+model MailingList {
+    slug              String                    @id
+    name              String
+    description       String?
+    subscriptionLevel String                    @default("public")
+    adminRoles        SystemRole[]
+    subscriptions     MailingListSubscription[]
+}
+
+model MailingListSubscription {
+    email           String
+    mailingList     MailingList @relation(fields: [mailingListSlug], references: [slug])
+    mailingListSlug String
+    name            String?
+    userUid         String?
+    createdAt       DateTime    @default(now())
+    updatedAt       DateTime    @default(now()) @updatedAt
+
+    @@id([email, mailingListSlug])
+}
