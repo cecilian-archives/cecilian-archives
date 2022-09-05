@@ -1,17 +1,30 @@
-import "src/styles/globals.css";
-import "src/styles/fonts.css";
-import type { AppType } from "next/dist/shared/lib/utils";
+import type { ReactElement, ReactNode } from "react";
+import type { NextPage } from "next";
+import type { AppProps } from "next/app";
+
 import Head from "next/head";
 import { trpc } from "src/utils/trpc";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+import "src/styles/globals.css";
+import "src/styles/fonts.css";
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Head>
         <title>Cecilian Archives</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </>
   );
 };

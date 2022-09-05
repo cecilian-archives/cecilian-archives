@@ -7,7 +7,7 @@
     @apply font-body scroll-smooth;
   }
   body {
-    @apply min-h-screen text-black transition-all;
+    @apply min-h-screen text-black transition-all bg-archiveBlue-500;
   }
   h1,
   h2,
@@ -25,6 +25,15 @@
 @layer utilities {
   .gradient-background {
     @apply bg-archiveBlue-500 bg-gradient-to-t from-archiveBlue-600 to-archiveBlue-400;
+  }
+  .ohnohoney {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    z-index: -1;
   }
   .table-cell {
     @apply px-4 py-2 border border-black text-center;

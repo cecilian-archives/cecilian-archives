@@ -9,6 +9,7 @@ interface ButtonLinkBase {
   loading?: boolean;
   variant?: "solid" | "outline";
   colour?: "primary" | "secondary";
+  textColour?: "light" | "dark";
 }
 interface LinkProps extends ButtonLinkBase {
   to: string;
@@ -35,9 +36,9 @@ const variantClasses = {
   },
   outline: {
     primary:
-      "text-white bg-transparent border border-archiveBlue-800 focus:ring-archiveBlue-300 hover:bg-archiveBlue-700",
+      "bg-transparent border border-archiveBlue-800 focus:ring-archiveBlue-300 hover:bg-archiveBlue-700 hover:text-white",
     secondary:
-      "text-white bg-transparent border border-archiveYellow-500 focus:ring-archiveYellow-400 hover:bg-archiveYellow-500 hover:text-gray-900",
+      "bg-transparent border border-archiveYellow-500 focus:ring-archiveYellow-400 hover:bg-archiveYellow-500 hover:text-gray-900",
   },
 };
 const widthClasses = {
@@ -54,6 +55,7 @@ const ButtonLink = forwardRef(
       loading,
       variant = "solid",
       colour = "primary",
+      textColour = "dark",
       width = "fixed",
       buttonType = undefined,
       className,
@@ -62,13 +64,15 @@ const ButtonLink = forwardRef(
     ref?: React.Ref<any>
   ) => {
     const RootElement = Boolean(to) ? (Boolean(target) ? "a" : Link) : "button";
+    const textClasses =
+      variant === "outline" ? (textColour === "light" ? "text-white" : "text-black") : "";
     return (
       <RootElement
         href={to as string}
         target={target}
         type={RootElement === "button" ? buttonType : undefined}
         onClick={onClick}
-        className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${className}`}
+        className={`${baseClasses} ${variantClasses[variant][colour]} ${widthClasses[width]} ${textClasses} ${className}`}
         ref={ref}
       >
         {RootElement === "button" ? (
