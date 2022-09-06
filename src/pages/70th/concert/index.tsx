@@ -13,8 +13,8 @@ const Concert70th: NextPageWithLayout = () => {
           <h2 className="text-gray-900 text-4xl pt-4 pb-2">Concert Breakdown</h2>
           <p className="text-lg py-4">
             We are so excited to get started on the 70th Celebration Concert, and we've reached the
-            point where we need YOUR help! The setlist for the Concert is now available to view and
-            enjoy.
+            point where we need YOUR help! The provisional setlist for the Concert is now available
+            to view and enjoy.
           </p>
           <div className="py-2 sm:py-0 flex flex-col sm:flex-row items-center gap-4">
             <ButtonLink to="/70th/concert/setlist" variant="solid" colour="primary">
@@ -196,7 +196,12 @@ const Concert70th: NextPageWithLayout = () => {
           If you've read this far, hopefully it's clear by now that no matter what you're interested
           in doing at the Concert, we'd like you to fill in the form!
         </p>
-        <ButtonLink to="/70th/concert/setlist" variant="solid" colour="secondary">
+        <ButtonLink
+          to="https://docs.google.com/forms/d/e/1FAIpQLScr6o1acCNZpRuV1nQCNQLsFTVbvEwz8CaqwjE3CwGj590e1w/viewform"
+          target="_blank"
+          variant="solid"
+          colour="secondary"
+        >
           Concert Interest Form
         </ButtonLink>
       </section>
