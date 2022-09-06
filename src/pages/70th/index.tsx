@@ -45,14 +45,11 @@ const Home70th: NextPageWithLayout = () => {
                 , complete with band, buffet and cake!
               </p>
             </div>
-            <a
-              href="https://www.ceciliansociety.co.uk/archive/gallery/archive/tights2_jpg"
-              target="_blank"
-            >
+            <a href="/images/ASU.jpg" target="_blank">
               <img
-                src="https://www.ceciliansociety.co.uk/archive/gallery/archive/tights2.jpg"
+                src="/images/ASU.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
               />
             </a>
           </div>
@@ -67,7 +64,7 @@ const Home70th: NextPageWithLayout = () => {
               <img
                 src="https://www.ceciliansociety.co.uk/archive/gallery/h2S/h2s9.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:mr-10 border border-archiveYellow-600 rounded-md transform -rotate-3 hover:-rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:mr-10 border border-archiveYellow-600 rounded-md transform transition-transform -rotate-3 hover:-rotate-2"
               />
             </a>
             <div className="max-w-prose">
@@ -111,7 +108,7 @@ const Home70th: NextPageWithLayout = () => {
               <img
                 src="https://www.ceciliansociety.co.uk/archive/gallery/40thAnniversaryDinner1992/7.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
               />
             </a>
           </div>

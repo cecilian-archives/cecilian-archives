@@ -7,16 +7,16 @@ import ButtonLink from "src/components/ButtonLink";
 const Contact70th: NextPageWithLayout = () => {
   return (
     <section className="w-full bg-archiveBlue-50 p-8 px-4 flex flex-col items-center md:max-w-full md:justify-between">
-      <div className="max-w-prose mx-4">
+      <div className="w-full max-w-prose mx-auto">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Contact the Team</h2>
         <p className="text-lg py-4">
           To get in touch with the 70th Anniversary team, you can email{" "}
           <a
-            href="mailto:70th@ceciliansociety.co.uk"
+            href="mailto:70th@cecilianarchives.com"
             target="_blank"
             className="underline text-archiveBlue-600 hover:text-archiveBlue-400"
           >
-            70th@ceciliansociety.co.uk
+            70th@cecilianarchives.com
           </a>{" "}
           and one of us will get back to you ASAP.
         </p>
@@ -33,6 +33,16 @@ const Contact70th: NextPageWithLayout = () => {
           Alumni Facebook Group
         </ButtonLink>
       </div>
+      <a
+        href="https://www.ceciliansociety.co.uk/archive/gallery/merrywidow1968/PICT0014_JPG"
+        target="_blank"
+      >
+        <img
+          src="https://www.ceciliansociety.co.uk/archive/gallery/merrywidow1968/PICT0014.JPG"
+          alt=""
+          className="max-w-full lg:max-w-lg mt-10 mb-6 border border-archiveYellow-600 rounded-md transform transition-transform -rotate-3 hover:-rotate-2"
+        />
+      </a>
     </section>
   );
 };

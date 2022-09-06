@@ -28,11 +28,11 @@ const Tickets70th: NextPageWithLayout = () => {
           Plus ones are more than welcome at each event, and especially so at the dinner.
         </p>
       </div>
-      <a href="https://www.ceciliansociety.co.uk/archive/gallery/social/Newyr7_jpg" target="_blank">
+      <a href="/images/Popstars.jpg" target="_blank">
         <img
-          src="https://www.ceciliansociety.co.uk/archive/gallery/social/Newyr7.jpg"
+          src="/images/Popstars.jpg"
           alt=""
-          className="max-w-full lg:max-w-lg my-8 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+          className="max-w-full lg:max-w-lg my-8 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
         />
       </a>
     </section>
