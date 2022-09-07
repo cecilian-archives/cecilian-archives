@@ -21,12 +21,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .json("Verification failure. You are not authorized to invoke this function.");
   }
 
-  const parsedBody = JSON.parse(req.body);
-  const [localPart] = parsedBody.OriginalRecipient.split("@");
+  const [localPart] = req.body.OriginalRecipient.split("@");
   const [listSlug, plusHash] = localPart.split("+");
 
   console.log(`Attempting send to list ${listSlug}`);
-  const { FromFull, ReplyTo, Subject, TextBody, HtmlBody, Attachments } = parsedBody;
+  const { FromFull, ReplyTo, Subject, TextBody, HtmlBody, Attachments } = req.body;
 
   const [, senderDomain] = FromFull?.Email?.split?.("@") || [];
   if (senderDomain !== process.env.POSTMARK_SENDER_DOMAIN) {
