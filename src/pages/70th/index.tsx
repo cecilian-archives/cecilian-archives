@@ -8,7 +8,7 @@ import StarDivider from "src/components/StarDivider";
 const Home70th: NextPageWithLayout = () => {
   return (
     <>
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">
             Let the celebrations begin!
@@ -25,7 +25,7 @@ const Home70th: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <section className="w-full bg-archiveYellow-50 p-10 md:py-8">
+      <section className="w-full bg-archiveYellow-50 p-8">
         <div className="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">Running Order</h2>
 
@@ -45,14 +45,11 @@ const Home70th: NextPageWithLayout = () => {
                 , complete with band, buffet and cake!
               </p>
             </div>
-            <a
-              href="https://www.ceciliansociety.co.uk/archive/gallery/archive/tights2_jpg"
-              target="_blank"
-            >
+            <a href="/images/ASU.jpg" target="_blank">
               <img
-                src="https://www.ceciliansociety.co.uk/archive/gallery/archive/tights2.jpg"
+                src="/images/ASU.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
               />
             </a>
           </div>
@@ -67,7 +64,7 @@ const Home70th: NextPageWithLayout = () => {
               <img
                 src="https://www.ceciliansociety.co.uk/archive/gallery/h2S/h2s9.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:mr-10 border border-archiveYellow-600 rounded-md transform -rotate-3 hover:-rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:mr-10 border border-archiveYellow-600 rounded-md transform transition-transform -rotate-3 hover:-rotate-2"
               />
             </a>
             <div className="max-w-prose">
@@ -111,14 +108,14 @@ const Home70th: NextPageWithLayout = () => {
               <img
                 src="https://www.ceciliansociety.co.uk/archive/gallery/40thAnniversaryDinner1992/7.jpg"
                 alt=""
-                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+                className="max-w-full lg:max-w-lg my-6 md:ml-10 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
               />
             </a>
           </div>
         </div>
       </section>
 
-      <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+      <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
           <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">What now?</h2>
           <p className="text-center text-lg py-4">

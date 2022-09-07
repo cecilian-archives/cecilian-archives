@@ -7,11 +7,41 @@ import ButtonLink from "src/components/ButtonLink";
 
 const ConcertSetlist70th: NextPageWithLayout = () => {
   return (
-    <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+    <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
       <div className="max-w-prose">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Concert Setlist</h2>
+        <p className="py-2">
+          Below is the setlist for our anniversary concert! This is subject to change as we go
+          through the rehearsal process, but hopefully gives a good idea of what we're aiming for.
+        </p>
+        <p className="py-2">
+          You'll also see some notes next to each number as to what voice types and size of cast
+          we're hoping to have:
+        </p>
+        <ul className="py-2 px-6 md:px-10 list-disc">
+          <li>hv - higher voice</li>
+          <li>lv - lower voice</li>
+          <li>small group - as it says on the tin</li>
+          <li>full - full chorus</li>
+        </ul>
+        <p className="py-2">
+          Numbers marked 'full' are, in the Cecilian spirit, open chorus, meaning that if you'd like
+          to take part in it, you can!
+        </p>
+        <ButtonLink
+          to="https://open.spotify.com/playlist/1xQ3uUuHgQEBQOKRYOW9yL"
+          target="_blank"
+          variant="solid"
+          colour="primary"
+          className="mb-6"
+        >
+          Listen on Spotify
+        </ButtonLink>
+
+        <StarDivider bgClass="bg-archiveBlue-50" />
+
         <h3 className="text-gray-900 text-2xl pt-4">Act One</h3>
-        <ol className="py-4 px-10 list-decimal">
+        <ol className="py-4 px-6 md:px-10 list-decimal">
           <li>
             <b>Hail Poetry</b>, <i>The Pirates of Penzance</i>{" "}
             <span className="text-sm text-gray-500">(full)</span>
@@ -59,9 +89,11 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <span className="text-sm text-gray-500">(full, featured 8x)</span>
           </li>
         </ol>
+
         <StarDivider bgClass="bg-archiveBlue-50" />
+
         <h3 className="text-gray-900 text-2xl pt-4">Act Two</h3>
-        <ol className="py-4 px-10 list-decimal">
+        <ol className="py-4 px-6 md:px-10 list-decimal">
           <li>
             <b>Zombie Prom</b>, <i>Zombie Prom</i>{" "}
             <span className="text-sm text-gray-500">(full, featured 1hv 1lv)</span>
@@ -76,7 +108,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           <br />
           <li>
             <b>Steam Heat</b>, <i>The Pajama Game</i>{" "}
-            <span className="text-sm text-gray-500">(3x)</span>
+            <span className="text-sm text-gray-500">(small group, 3x)</span>
           </li>
           <li>
             <b>Too Darn Hot</b>, <i>Kiss Me Kate</i>{" "}
@@ -93,7 +125,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           </li>
           <li>
             <b>Facade</b>, <i>Jekyll and Hyde</i>{" "}
-            <span className="text-sm text-gray-500">(chorus)</span>
+            <span className="text-sm text-gray-500">(full)</span>
           </li>
           <br />
           <li>
@@ -102,7 +134,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           </li>
           <li>
             <b>Sit Down You're Rocking the Boat</b>, <i>Guys and Dolls</i>{" "}
-            <span className="text-sm text-gray-500">(1lv and chorus)</span>
+            <span className="text-sm text-gray-500">(1lv, full)</span>
           </li>
           <br />
           <li>
@@ -110,7 +142,8 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <span className="text-sm text-gray-500">(1lv, full)</span>
           </li>
           <li>
-            <b>Bad Guys</b>, <i>Bugsy Malone</i> <span className="text-sm text-gray-500">(7x)</span>
+            <b>Bad Guys</b>, <i>Bugsy Malone</i>{" "}
+            <span className="text-sm text-gray-500">(small group, 7x)</span>
           </li>
           <li>
             <b>We Go Together</b>, <i>Grease (Cecilians Version)</i>{" "}
@@ -118,6 +151,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           </li>
         </ol>
       </div>
+
       <ButtonLink to="/70th/concert" variant="outline" colour="secondary" className="mt-6">
         Go Back
       </ButtonLink>

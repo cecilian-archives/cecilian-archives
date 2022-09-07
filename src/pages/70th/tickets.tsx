@@ -2,9 +2,12 @@ import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
 import Layout70th from "src/components/70th/Layout70th";
 
+import ButtonLink from "src/components/ButtonLink";
+import StarDivider from "src/components/StarDivider";
+
 const Tickets70th: NextPageWithLayout = () => {
   return (
-    <section className="w-full bg-archiveBlue-50 p-10 flex flex-col items-center md:py-8 md:max-w-full md:justify-between">
+    <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
       <div className="w-full max-w-prose mx-auto">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Ticket Prices</h2>
         <p className="py-4 text-lg">
@@ -16,23 +19,51 @@ const Tickets70th: NextPageWithLayout = () => {
         </p>
         <ul className="list-disc px-10 py-4 text-lg">
           <li>Ceilidh - £15</li>
-          <li>
-            Concert - £12
-            <br />
-            <span className="text-sm text-gray-600">
-              (Note that this is the price to participate in the concert or for a ticket to watch as
-              a spectator. Please encourage your friends and family to come and watch too!)
-            </span>
-          </li>
+          <li>Concert - £12</li>
           <li>Dinner - £40</li>
           <li>Full weekend - £60</li>
         </ul>
+        <p className="py-4 text-lg">
+          Note that the price of the concert applies whether you wish to participate as a performer
+          or simply watch and enjoy. Please encourage your friends and family to come and watch too!
+        </p>
+        <p className="py-4 text-lg">
+          Plus ones are more than welcome at each event, and especially so at the dinner.
+        </p>
+
+        <StarDivider bgClass="bg-archiveBlue-50" />
+
+        <h3 className="text-gray-900 text-3xl pt-4 pb-2">Accommodation</h3>
+        <p className="py-4 text-lg">
+          If you've moved away from the area and would like to make a head start on where to stay
+          for your trip, our venue for Sunday's dinner, the{" "}
+          <a
+            href="https://www.gghotel.co.uk/"
+            target="_blank"
+            className="underline text-archiveBlue-600 hover:text-archiveBlue-400"
+          >
+            Glasgow Grosvenor Hotel
+          </a>
+          , have offered us a <b>10% discount</b> on their bed and breakfast advance purchase rate.
+        </p>
+        <ButtonLink
+          to="https://direct-book.com/properties/glasgowgrosvenor?locale=en&items[0][adults]=2&items[0][children]=0&items[0][infants]=0&currency=GBP&checkInDate=2022-10-21&checkOutDate=2022-10-24&promocode=GRP_EVE&trackPage=no"
+          target="_blank"
+        >
+          Claim the Discount
+        </ButtonLink>
+        <p className="py-4 text-lg">
+          To take advantage of this rate, simply book using the button above at least 21 days before
+          arrival.
+        </p>
+
+        <StarDivider bgClass="bg-archiveBlue-50" />
       </div>
-      <a href="https://www.ceciliansociety.co.uk/archive/gallery/social/Newyr7_jpg" target="_blank">
+      <a href="/images/Popstars.jpg" target="_blank">
         <img
-          src="https://www.ceciliansociety.co.uk/archive/gallery/social/Newyr7.jpg"
+          src="/images/Popstars.jpg"
           alt=""
-          className="max-w-full lg:max-w-lg my-8 border border-archiveYellow-600 rounded-md transform rotate-3 hover:rotate-2"
+          className="max-w-full lg:max-w-lg my-8 border border-archiveYellow-600 rounded-md transform transition-transform rotate-3 hover:rotate-2"
         />
       </a>
     </section>
