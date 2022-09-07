@@ -19,8 +19,8 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           we're hoping to have:
         </p>
         <ul className="py-2 px-6 md:px-10 list-disc">
-          <li>hv - higher voice</li>
-          <li>lv - lower voice</li>
+          <li>hv - higher voice (soprano/alto)</li>
+          <li>lv - lower voice (tenor/bass)</li>
           <li>small group - as it says on the tin</li>
           <li>full - full chorus</li>
         </ul>
