@@ -1,5 +1,4 @@
 import { t } from "src/server/trpc/trpc";
-import { z } from "zod";
 
 import { mailingListSubscriptionsRouter } from "src/server/trpc/router/mailingListSubscriptions";
 
