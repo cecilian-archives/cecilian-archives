@@ -29,10 +29,12 @@ const AccordionPanel = ({ title, children, openPanel, setOpenPanel }: AccordionP
     <Disclosure>
       <Disclosure.Button
         onClick={handleClick}
-        className="w-full py-4 flex flex-row items-center justify-start gap-4"
+        className="w-full py-4 -mx-1 md:mx-0 flex flex-row items-center justify-start gap-4"
       >
         <ChevronRightIcon
-          className={`w-4 h-4 transition-transform ${isOpen ? "transform rotate-90" : ""}`}
+          className={`w-4 h-4 flex-shrink-0 transition-transform ${
+            isOpen ? "transform rotate-90" : ""
+          }`}
         />
         <span className="font-title text-left text-gray-900 text-2xl">{title}</span>
       </Disclosure.Button>
