@@ -70,10 +70,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await Promise.all(recipientBatches.map((batch) => postmark.sendEmailBatch(batch)));
-    return res.status(200);
+    return res.status(200).send("");
   } catch (err) {
     console.error(err);
-    return res.status(500).json(err);
+    return res.status(500).send("");
   }
 };
 
