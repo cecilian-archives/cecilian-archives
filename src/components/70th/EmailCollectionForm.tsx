@@ -32,7 +32,7 @@ const EmailCollectionForm = () => {
       {addSubscription.isSuccess ? (
         <div className="flex flex-col items-center justify-start space-y-2">
           <h2 className="text-gray-100 text-3xl text-center pt-4 pb-2">Thank You!</h2>
-          <p className="text-gray-100 text-xl md:text-lg">
+          <p className="text-gray-100 text-xl md:text-lg text-center">
             We have your email address and will be in touch soon.
           </p>
           <p className="text-gray-300 text-lg md:text-base">No spam, we promise</p>
