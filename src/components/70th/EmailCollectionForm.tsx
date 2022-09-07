@@ -14,10 +14,13 @@ const EmailCollectionForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     mode: "onBlur",
   });
   const addSubscription = trpc.mailingList.subscriptions.add.useMutation();
+
+  const enteredEmail = watch("cecilianEmailAddress");
 
   const onSubmit = async (data: EmailCollectionFormData) => {
     addSubscription.mutate({
@@ -33,9 +36,11 @@ const EmailCollectionForm = () => {
         <div className="flex flex-col items-center justify-start space-y-2">
           <h2 className="text-gray-100 text-3xl text-center pt-4 pb-2">Thank You!</h2>
           <p className="text-gray-100 text-xl md:text-lg text-center">
-            We have your email address and will be in touch soon.
+            Your email address <b>{enteredEmail}</b> is now subscribed to updates.
           </p>
-          <p className="text-gray-300 text-lg md:text-base">No spam, we promise</p>
+          <p className="text-gray-300 text-lg md:text-base text-center">
+            We'll be in touch soon. No spam, we promise
+          </p>
         </div>
       ) : (
         <form
