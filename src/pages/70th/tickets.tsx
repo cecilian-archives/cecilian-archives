@@ -18,10 +18,18 @@ const Tickets70th: NextPageWithLayout = () => {
           In the meantime, here are the prices for each event to aid with advance planning:
         </p>
         <ul className="list-disc px-10 py-4 text-lg">
-          <li>Ceilidh - £15</li>
-          <li>Concert - £12</li>
-          <li>Dinner - £40</li>
-          <li>Full weekend - £60</li>
+          <li>
+            Ceilidh: <b>£15</b>
+          </li>
+          <li>
+            Concert: <b>£12</b>
+          </li>
+          <li>
+            Dinner: <b>£40</b>
+          </li>
+          <li>
+            Full weekend (ceilidh, concert and dinner): <b>£60</b>
+          </li>
         </ul>
         <p className="py-4 text-lg">
           Note that the price of the concert applies whether you wish to participate as a performer
