@@ -317,6 +317,7 @@ enum RoleType {
 }
 
 model Tag {
+    // TODO: Need to rethink whether this cross-model is necessary and desirable
     id      String  @id @default(cuid())
     type    TagType
     role    Role?   @relation(fields: [roleId], references: [id])
