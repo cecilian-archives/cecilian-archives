@@ -10,6 +10,8 @@ interface TextFieldProps {
   options: RegisterOptions;
   errors: any;
   onBackground?: "light" | "dark";
+  widthClasses?: string;
+  prefix?: string;
 }
 
 const TextField = ({
@@ -21,24 +23,39 @@ const TextField = ({
   options,
   errors,
   onBackground = "light",
+  widthClasses = "",
+  prefix = "",
 }: TextFieldProps) => {
   const labelColour = onBackground === "light" ? "text-gray-800" : "text-white";
   const errorColour = onBackground === "light" ? "text-red-700" : "text-red-300";
+  const widthClass = widthClasses || "w-full";
+  const prefixClass = Boolean(prefix) ? "pl-10" : "";
+
+  const [errorName, errorIdx] = name.split(".");
+  const errorMessage = errorIdx
+    ? errors[errorName as string]?.[errorIdx]?.message
+    : errors[name]?.message;
+
   return (
     <label
       className={`text-base ${labelColour} w-full flex flex-col justify-center items-start gap-1`}
     >
       <span>{label}</span>
-      <input
-        type={type}
-        placeholder={placeholder}
-        {...register(name, options)}
-        className="text-black w-full rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400"
-      />
-      {Boolean(errors[name]?.message) && (
-        <span className={`text-base max-w-prose ${errorColour}`}>
-          {errors[name]?.message?.toString()}
-        </span>
+      <div className={`relative group w-full`}>
+        <input
+          type={type}
+          placeholder={placeholder}
+          {...register(name, options)}
+          className={`text-black ${widthClass} ${prefixClass} rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400`}
+        />
+        {Boolean(prefix) && (
+          <div className="absolute top-0 left-0 bottom-0 w-8 h-full bg-archiveBlue-200 bg-opacity-50 rounded-tl rounded-bl border border-archiveBlue-700 border-r-0 group-focus-within:border-transparent text-center flex justify-center items-center">
+            {prefix}
+          </div>
+        )}
+      </div>
+      {Boolean(errorMessage) && (
+        <span className={`text-base max-w-prose ${errorColour}`}>{errorMessage?.toString()}</span>
       )}
     </label>
   );
