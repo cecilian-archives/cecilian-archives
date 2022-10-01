@@ -38,11 +38,10 @@ const ProviderAuthButton = ({ provider, loadingStatus, onClick }: ProviderAuthBu
 const Login: NextPage = () => {
   const [loadingStatus, setLoadingStatus] = useState<AuthLoadingStatus>("dormant");
   const { data: session, status } = useSession();
-  console.log(session);
   const router = useRouter();
 
   const redirectedFrom = router.query?.redirectedFrom?.toString();
-  const redirectTo = `/login/success?redirectedFrom=${redirectedFrom || "/dash"}`;
+  const redirectTo = redirectedFrom || "/dash";
 
   const {
     register,

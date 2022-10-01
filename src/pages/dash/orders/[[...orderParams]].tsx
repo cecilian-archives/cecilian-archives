@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 
-import { useRouter } from "next/router";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import ButtonLink from "src/components/ButtonLink";
 import { TextField, TextArea, NumberField } from "src/components/formFields";
 import StarDivider from "src/components/StarDivider";
+import { trpc } from "src/utils/trpc";
 
 const ticketTypes = ["ceilidh", "concert", "dinner", "full"] as const;
 interface CostInputs {
@@ -36,12 +36,23 @@ const getTotalCost = ({ ceilidhQty, concertQty, dinnerQty }: CostInputs) => {
   return individualCosts.reduce((acc, cost) => acc + cost, 0);
 };
 
-const Tickets: NextPage = () => {
-  const { data: session, status } = useSession();
+const numberiseInputs = ({
+  ceilidhQtyVal,
+  concertQtyVal,
+  dinnerQtyVal,
+  donationVal,
+}: {
+  [key: string]: string;
+}) => {
+  const ceilidhQty = (ceilidhQtyVal && parseInt(ceilidhQtyVal)) || 0;
+  const concertQty = (concertQtyVal && parseInt(concertQtyVal)) || 0;
+  const dinnerQty = (dinnerQtyVal && parseInt(dinnerQtyVal)) || 0;
+  const donationValue = (donationVal && parseFloat(donationVal)) || 0;
+  return { ceilidhQty, concertQty, dinnerQty, donationValue };
+};
 
-  const router = useRouter();
-  const { eventParams } = router.query;
-  const [eventKey] = Array.isArray(eventParams) ? eventParams : null || ["70th"];
+const Tickets70th: NextPage = () => {
+  const { data: session, status } = useSession();
 
   const {
     register,
@@ -60,8 +71,20 @@ const Tickets: NextPage = () => {
     },
   });
 
+  const upsertOrder = trpc.salesOrders.upsertUserOrder.useMutation();
+
   const onSubmit = (data: any) => {
     console.log(data);
+    const orderDetails = {
+      ...data,
+      ...numberiseInputs({
+        ceilidhQtyVal: data.ceilidhQty,
+        concertQtyVal: data.concertQty,
+        dinnerQtyVal: data.dinnerQty,
+        donationVal: data.donationValue,
+      }),
+    };
+    upsertOrder.mutate({ orderDetails });
   };
 
   const [ceilidhQtyVal, concertQtyVal, dinnerQtyVal, donationVal] = watch([
@@ -70,11 +93,13 @@ const Tickets: NextPage = () => {
     "dinnerQty",
     "donationValue",
   ]);
-  const ceilidhQty = parseInt(ceilidhQtyVal) || 0;
-  const concertQty = parseInt(concertQtyVal) || 0;
-  const dinnerQty = parseInt(dinnerQtyVal) || 0;
+  const { ceilidhQty, concertQty, dinnerQty, donationValue } = numberiseInputs({
+    ceilidhQtyVal,
+    concertQtyVal,
+    dinnerQtyVal,
+    donationVal,
+  });
   const dinnerNameIndices = Array.from({ length: dinnerQty }, (_, idx) => idx);
-  const donationValue = parseInt(donationVal) || 0;
 
   return status === "loading" ? null : (
     <div className="flex w-screen min-h-screen">
@@ -146,7 +171,7 @@ const Tickets: NextPage = () => {
           <StarDivider spacingClass="py-6" bgClass="bg-archiveBlue-50" />
           <div className="w-full flex flex-row justify-between items-center">
             <h3 className="text-xl mt-2">Total Ticket Cost</h3>
-            <p className="text-xl font-title mt-2">
+            <p className="text-xl font-title mt-2 font-bold">
               £{getTotalCost({ ceilidhQty, concertQty, dinnerQty })}
             </p>
           </div>
@@ -164,14 +189,14 @@ const Tickets: NextPage = () => {
                 {dinnerNameIndices.map((idx) => (
                   <div key={idx} className="w-full grid grid-cols-2 gap-2 md:gap-4 items-start">
                     <TextField
-                      name={`firstName.${idx}`}
+                      name={`dinnerFirstNames.${idx}`}
                       label="First Name"
                       register={register}
                       options={{ required: "Please enter a first name" }}
                       errors={errors}
                     />
                     <TextField
-                      name={`lastName.${idx}`}
+                      name={`dinnerLastNames.${idx}`}
                       label="Last Name"
                       register={register}
                       options={{ required: "Please enter a last name" }}
@@ -231,8 +256,11 @@ const Tickets: NextPage = () => {
           </fieldset>
           <StarDivider spacingClass="py-6" bgClass="bg-archiveBlue-50" />
           <div className="w-full flex flex-col md:flex-row justify-between items-center gap-3 py-2">
-            <p className="text-xl font-title">
-              Grand Total: £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) + donationValue}
+            <p className="text-gray-900 text-xl font-title p-3 md:p-2 pt-0 border-b border-archiveYellow-500">
+              Grand Total:{" "}
+              <b className="text-black">
+                £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) + donationValue}
+              </b>
             </p>
             <ButtonLink buttonType="submit" onClick={() => {}}>
               Confirm and Pay
@@ -244,4 +272,4 @@ const Tickets: NextPage = () => {
   );
 };
 
-export default Tickets;
+export default Tickets70th;

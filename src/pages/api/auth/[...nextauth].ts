@@ -1,12 +1,14 @@
-import NextAuth, { SessionStrategy } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
+
+import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "src/server/db/client";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt" as SessionStrategy,
+    strategy: "jwt",
   },
   providers: [
     EmailProvider({

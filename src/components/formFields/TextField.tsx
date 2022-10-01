@@ -45,7 +45,7 @@ const TextField = ({
         <input
           type={type}
           placeholder={placeholder}
-          {...register(name, options)}
+          {...register(name, { ...options, setValueAs: (val: string) => val.trim() })}
           className={`text-black ${widthClass} ${prefixClass} rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400`}
         />
         {Boolean(prefix) && (

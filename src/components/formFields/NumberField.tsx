@@ -55,12 +55,12 @@ const NumberField = ({
           {description}
         </div>
         <div
-          className={`text-base ${labelColour} grid grid-cols-[1.75rem_4rem_1.75rem] auto-rows-auto justify-items-center items-center gap-y-1 gap-x-4`}
+          className={`text-base ${labelColour} w-full md:w-auto grid grid-cols-[1fr_1.75rem_4rem_1.75rem] md:grid-cols-[1.75rem_4rem_1.75rem] auto-rows-auto justify-items-center items-center gap-y-1 gap-x-4`}
         >
-          <label className="row-start-1 col-start-2">{label}</label>
+          <label className="row-start-1 md:col-start-2 justify-self-start">{label}</label>
           <button
             type="button"
-            className="text-archiveBlue-400 hover:text-archiveBlue-500 row-start-2"
+            className="text-archiveBlue-400 hover:text-archiveBlue-500 md:row-start-2"
             onClick={decrement}
           >
             <MinusCircleIcon className="w-7 h-7" />
@@ -73,11 +73,11 @@ const NumberField = ({
               pattern: { value: /^-?\d+$/, message: "Please enter a number, with no decimals" },
               valueAsNumber: false,
             })}
-            className={`row-start-2 text-black w-16 text-center rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400`}
+            className={`md:row-start-2 text-black w-16 text-center rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400`}
           />
           <button
             type="button"
-            className="text-archiveBlue-400 hover:text-archiveBlue-500 row-start-2"
+            className="text-archiveBlue-400 hover:text-archiveBlue-500 md:row-start-2"
             onClick={increment}
           >
             <PlusCircleIcon className="w-7 h-7" />

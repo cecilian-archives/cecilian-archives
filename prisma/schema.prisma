@@ -75,6 +75,8 @@ model User {
     collectionsUpdated   ArchiveCollection[] @relation("CollectionUpdatedBy")
     collectionsDeleted   ArchiveCollection[] @relation("CollectionDeletedBy")
     collectionItemsAdded CollectionItem[]    @relation("CollectionItemAddedBy")
+
+    orders SalesOrder[]
 }
 
 model UserRole {
@@ -450,4 +452,24 @@ model MailingListSubscription {
     updatedAt       DateTime    @default(now()) @updatedAt
 
     @@id([email, mailingListSlug])
+}
+
+// ---------------------------------------------------------
+//
+//  SALES ORDERS
+//
+// ---------------------------------------------------------
+
+model SalesOrder {
+    id     String @id @default(cuid())
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    orderDetails     Json?
+    checkoutSession  Json?
+    paymentConfirmed Boolean @default(false)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 }
