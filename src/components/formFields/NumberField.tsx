@@ -49,7 +49,7 @@ const NumberField = ({
 
   return (
     <div className="w-full flex flex-col justify-center items-end gap-2">
-      <div className="w-full flex flex-col md:flex-row justify-between items-end gap-1">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
         <div className="self-start md:self-auto">
           {title}
           {description}
