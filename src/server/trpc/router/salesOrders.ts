@@ -1,6 +1,21 @@
 import { t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
+import createCheckout from "src/server/checkout/createCheckout";
+
+const orderDetailsDef = z.object({
+  ceilidhQty: z.number().optional(),
+  concertQty: z.number().optional(),
+  dinnerQty: z.number().optional(),
+  dinnerFirstNames: z.array(z.string()).optional(),
+  dinnerLastNames: z.array(z.string()).optional(),
+  donationValue: z.number().optional(),
+  specialReqs: z.string().optional(),
+  seatingReqs: z.string().optional(),
+});
+
+export type OrderDetails = z.infer<typeof orderDetailsDef>;
+
 export const salesOrdersRouter = t.router({
   getUserOrders: t.procedure.query(({ ctx }) => {
     return ctx.prisma.salesOrder.findMany({
@@ -15,40 +30,43 @@ export const salesOrdersRouter = t.router({
     .input(
       z.object({
         id: z.string().optional(),
-        orderDetails: z.object({
-          ceilidhQty: z.number().optional(),
-          concertQty: z.number().optional(),
-          dinnerQty: z.number().optional(),
-          dinnerFirstNames: z.array(z.string()).optional(),
-          dinnerLastNames: z.array(z.string()).optional(),
-          donationValue: z.number().optional(),
-          specialReqs: z.string().optional(),
-          seatingReqs: z.string().optional(),
-        }),
+        orderDetails: orderDetailsDef,
       })
     )
     .mutation(async ({ input, ctx }) => {
+      let order;
       if (input.id) {
-        const existingOwnedOrder = await ctx.prisma.salesOrder.findFirst({
+        order = await ctx.prisma.salesOrder.findFirst({
           where: {
             id: input.id,
             user: { id: ctx.token?.sub },
           },
+          include: { user: true },
         });
-        if (existingOwnedOrder === null) return null;
-        return ctx.prisma.salesOrder.update({
-          where: {
-            id: input.id,
-          },
+        if (order === null) return null;
+        if (order.paymentConfirmed) return null;
+      } else {
+        order = await ctx.prisma.salesOrder.create({
           data: {
             orderDetails: input.orderDetails,
+            user: { connect: { id: ctx.token?.sub } },
           },
+          include: { user: true },
         });
       }
-      return ctx.prisma.salesOrder.create({
+
+      const session = await createCheckout({ order });
+      return ctx.prisma.salesOrder.update({
+        where: {
+          id: order.id,
+        },
         data: {
-          orderDetails: input.orderDetails,
-          user: { connect: { id: ctx.token?.sub } },
+          checkoutSession: !session
+            ? undefined
+            : {
+                url: session.url,
+                expires_at: session.expires_at,
+              },
         },
       });
     }),

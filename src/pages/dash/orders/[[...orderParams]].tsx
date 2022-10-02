@@ -6,50 +6,7 @@ import ButtonLink from "src/components/ButtonLink";
 import { TextField, TextArea, NumberField } from "src/components/formFields";
 import StarDivider from "src/components/StarDivider";
 import { trpc } from "src/utils/trpc";
-
-const ticketTypes = ["ceilidh", "concert", "dinner", "full"] as const;
-interface CostInputs {
-  ceilidhQty: number;
-  concertQty: number;
-  dinnerQty: number;
-}
-const eventCostMap = {
-  ceilidh: 15,
-  concert: 12,
-  dinner: 40,
-  full: 60,
-};
-const getTotalCost = ({ ceilidhQty, concertQty, dinnerQty }: CostInputs) => {
-  const ceilidhQtyNorm = ceilidhQty < 0 ? 0 : ceilidhQty;
-  const concertQtyNorm = concertQty < 0 ? 0 : concertQty;
-  const dinnerQtyNorm = dinnerQty < 0 ? 0 : dinnerQty;
-  const lowestQty = Math.min(ceilidhQtyNorm, concertQtyNorm, dinnerQtyNorm);
-  const adjustedQuantities = {
-    ceilidh: ceilidhQtyNorm - lowestQty,
-    concert: concertQtyNorm - lowestQty,
-    dinner: dinnerQtyNorm - lowestQty,
-    full: lowestQty,
-  };
-  const individualCosts = ticketTypes.map(
-    (eventName) => eventCostMap[eventName] * adjustedQuantities[eventName]
-  );
-  return individualCosts.reduce((acc, cost) => acc + cost, 0);
-};
-
-const numberiseInputs = ({
-  ceilidhQtyVal,
-  concertQtyVal,
-  dinnerQtyVal,
-  donationVal,
-}: {
-  [key: string]: string;
-}) => {
-  const ceilidhQty = (ceilidhQtyVal && parseInt(ceilidhQtyVal)) || 0;
-  const concertQty = (concertQtyVal && parseInt(concertQtyVal)) || 0;
-  const dinnerQty = (dinnerQtyVal && parseInt(dinnerQtyVal)) || 0;
-  const donationValue = (donationVal && parseFloat(donationVal)) || 0;
-  return { ceilidhQty, concertQty, dinnerQty, donationValue };
-};
+import { getTotalCost, numberiseInputs } from "src/server/checkout/eventHelpers";
 
 const Tickets70th: NextPage = () => {
   const { data: session, status } = useSession();
@@ -172,7 +129,7 @@ const Tickets70th: NextPage = () => {
           <div className="w-full flex flex-row justify-between items-center">
             <h3 className="text-xl mt-2">Total Ticket Cost</h3>
             <p className="text-xl font-title mt-2 font-bold">
-              £{getTotalCost({ ceilidhQty, concertQty, dinnerQty })}
+              £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100}
             </p>
           </div>
           <p className="text-gray-700 text-sm mt-1 mb-2 max-w-[60vw]">
@@ -259,7 +216,7 @@ const Tickets70th: NextPage = () => {
             <p className="text-gray-900 text-xl font-title p-3 md:p-2 pt-0 border-b border-archiveYellow-500">
               Grand Total:{" "}
               <b className="text-black">
-                £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) + donationValue}
+                £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100 + donationValue}
               </b>
             </p>
             <ButtonLink buttonType="submit" onClick={() => {}}>

@@ -12,8 +12,8 @@ const generateId = ({ prefix = "", length = 10 } = {}): string => {
 
 export const generateModelId: Prisma.Middleware = async (params: Prisma.MiddlewareParams, next) => {
   if (params.action === "create") {
-    const prefix = params.model ? modelIdPrefixes[params.model] : "";
-    if (Boolean(params.args.data.id) && Boolean(prefix)) {
+    const prefix = params.model ? modelIdPrefixes[params.model] : undefined;
+    if (Boolean(prefix)) {
       params.args.data.id = generateId({ prefix });
     }
   }

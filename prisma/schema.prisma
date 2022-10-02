@@ -14,7 +14,7 @@ datasource db {
 // ---------------------------------------------------------
 
 model Account {
-    id                String  @id @default(cuid())
+    id                String  @id @default("acct")
     userId            String
     type              String
     provider          String
@@ -47,7 +47,7 @@ model VerificationToken {
 // ---------------------------------------------------------
 
 model User {
-    id            String    @id @default(cuid())
+    id            String    @id @default("usr")
     name          String?
     email         String?   @unique
     emailVerified DateTime?
@@ -99,7 +99,7 @@ enum SystemRole {
 }
 
 model UserProfile {
-    id         String    @id @default(cuid())
+    id         String    @id @default("usrprof")
     user       User      @relation("ProfileOwner", fields: [userId], references: [id])
     userId     String    @unique
     cecilian   Cecilian? @relation("ProfileCecilian", fields: [cecilianId], references: [id])
@@ -118,7 +118,7 @@ model UserProfile {
 }
 
 model UserContact {
-    id            String                @id @default(cuid())
+    id            String                @id @default("usrcont")
     userProfile   UserProfile           @relation(fields: [userProfileId], references: [id])
     userProfileId String
     type          UserContactType
@@ -145,7 +145,7 @@ enum UserContactVisibility {
 }
 
 model AccessKey {
-    id      String  @id @default(cuid())
+    id      String  @id @default("usrkey")
     key     String  @unique
     owner   User?   @relation("AccessKeyOwner", fields: [ownerId], references: [id])
     ownerId String?
@@ -163,7 +163,7 @@ model AccessKey {
 // ---------------------------------------------------------
 
 model Cecilian {
-    id          String  @id @default(cuid())
+    id          String  @id @default("cec")
     displayName String
     otherNames  String?
 
@@ -189,7 +189,7 @@ model ArchiveItemCecilian {
 }
 
 model ArchiveItem {
-    id             String          @id @default(cuid())
+    id             String          @id @default("item")
     archiveRef     String
     type           ArchiveItemType
     associatedDate DateTime?
@@ -219,7 +219,7 @@ enum ArchiveItemType {
 }
 
 model ArchiveFile {
-    id   String          @id @default(cuid())
+    id   String          @id @default("file")
     kind ArchiveFileKind
 
     name  String
@@ -264,7 +264,7 @@ model ArchiveItemFile {
 // ---------------------------------------------------------
 
 model Year {
-    id        Int       @id /// e.g. 0 for 1952-53, 1 for 1953-54 etc.
+    id        String    @id @default("year") /// e.g. year_1952 for 1952-53, year_1953 for 1953-54 etc.
     name      String    @unique /// e.g. 2010-2011
     startDate DateTime?
     endDate   DateTime?
@@ -278,11 +278,11 @@ model Year {
 }
 
 model Event {
-    id             String    @id @default(cuid())
+    id             String    @id @default("event")
     type           EventType
     name           String
     inherentYear   Year?     @relation(fields: [inherentYearId], references: [id])
-    inherentYearId Int?
+    inherentYearId String?
     startDate      DateTime?
     endDate        DateTime?
 
@@ -300,7 +300,7 @@ enum EventType {
 }
 
 model Role {
-    id   String   @id @default(cuid())
+    id   String   @id @default("role")
     type RoleType
     name String
 
@@ -320,14 +320,14 @@ enum RoleType {
 
 model Tag {
     // TODO: Need to rethink whether this cross-model is necessary and desirable
-    id      String  @id @default(cuid())
+    id      String  @id @default("tag")
     type    TagType
     role    Role?   @relation(fields: [roleId], references: [id])
     roleId  String?
     event   Event?  @relation(fields: [eventId], references: [id])
     eventId String?
     year    Year?   @relation(fields: [yearId], references: [id])
-    yearId  Int?
+    yearId  String?
 
     cecilians    CecilianTag[]
     archiveItems ArchiveItemTag[]
@@ -344,7 +344,7 @@ enum TagType {
 }
 
 model CecilianTag {
-    id         String   @id @default(cuid())
+    id         String   @id @default("ctag")
     cecilian   Cecilian @relation(fields: [cecilianId], references: [id])
     cecilianId String
     tag        Tag      @relation(fields: [tagId], references: [id])
@@ -355,7 +355,7 @@ model CecilianTag {
 }
 
 model ArchiveItemTag {
-    id     String      @id @default(cuid())
+    id     String      @id @default("atag")
     item   ArchiveItem @relation(fields: [itemId], references: [id])
     itemId String
     tag    Tag         @relation(fields: [tagId], references: [id])
@@ -372,7 +372,7 @@ model ArchiveItemTag {
 // ---------------------------------------------------------
 
 model ArchiveCollection {
-    id               String                @id @default(cuid())
+    id               String                @id @default("coll")
     type             ArchiveCollectionType
     name             String
     description      String?
@@ -412,7 +412,7 @@ enum ArchiveCollectionEditLevel {
 }
 
 model CollectionItem {
-    id           String            @id @default(cuid())
+    id           String            @id @default("collitem")
     collection   ArchiveCollection @relation(fields: [collectionId], references: [id])
     collectionId String
     item         ArchiveItem       @relation(fields: [itemId], references: [id])
@@ -461,7 +461,7 @@ model MailingListSubscription {
 // ---------------------------------------------------------
 
 model SalesOrder {
-    id     String @id @default(cuid())
+    id     String @id @default("ord")
     user   User   @relation(fields: [userId], references: [id])
     userId String
 
