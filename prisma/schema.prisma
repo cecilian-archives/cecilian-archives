@@ -125,7 +125,7 @@ model UserContact {
     customType    String?
     value         String
     notes         String?
-    visibility    UserContactVisibility @default(VISIBLE)
+    visibility    UserContactVisibility @default(HIDDEN)
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt

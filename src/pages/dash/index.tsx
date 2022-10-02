@@ -4,7 +4,7 @@ import { useSession, signOut } from "next-auth/react";
 import ImageFader from "src/components/ImageFader";
 import ButtonLink from "src/components/ButtonLink";
 
-import { enforceAuthInSSP } from "src/utils/enforceAuthInSSP";
+import { getSessionInSSP } from "src/utils/getSessionInSSP";
 
 const Dashboard: NextPage = () => {
   const { data: session, status } = useSession();
@@ -39,4 +39,4 @@ const Dashboard: NextPage = () => {
 
 export default Dashboard;
 
-export { enforceAuthInSSP as getServerSideProps };
+export { getSessionInSSP as getServerSideProps };
