@@ -25,7 +25,7 @@ const Logo = ({ src, alt, whiteBg = false }: LogoProps) => {
 
 const DashFooter = () => {
   return (
-    <footer className="w-full bg-archiveBlue-500 flex flex-col md:flex-row justify-between items-center gap-6 p-12">
+    <footer className="w-full bg-archiveBlue-500 flex flex-col md:flex-row justify-between items-center gap-6 p-10 border-t-8 border-archiveYellow-500">
       <a
         className="text-gray-100 text-sm text-center md:text-left transform transition-transform hover:underline hover:-translate-y-0.5"
         href="mailto:support@cecilianarchives.com"

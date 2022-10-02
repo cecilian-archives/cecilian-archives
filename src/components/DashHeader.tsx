@@ -60,7 +60,7 @@ function classNames(...classes: any[]) {
 
 const Header = () => {
   return (
-    <Popover className="relative bg-archiveBlue-500 w-full">
+    <Popover as="header" className="relative bg-archiveBlue-500 w-full">
       <div className="pointer-events-none absolute inset-0 z-30" aria-hidden="true" />
       <div className="relative z-20 w-full">
         <div className="mx-auto flex w-full items-center justify-between px-4 py-5 sm:px-6 sm:py-4 md:justify-start md:space-x-10 lg:px-8 border-b-8 border-archiveYellow-500">

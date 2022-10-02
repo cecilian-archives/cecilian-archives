@@ -63,7 +63,7 @@ const Tickets70th: NextPageWithLayout = () => {
   const dinnerNameIndices = Array.from({ length: dinnerQty }, (_, idx) => idx);
 
   return status === "loading" ? null : (
-    <div className="flex flex-1 flex-col justify-start w-full min-h-screen bg-archiveBlue-50 py-8 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 border-b-8 border-archiveYellow-500">
+    <div className="flex flex-1 flex-col justify-start w-full min-h-screen bg-archiveBlue-50 py-8 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="max-w-prose mx-auto">
         <h2 className="text-3xl tracking-tight text-black">Tickets</h2>
         <p className="mt-2 mb-8 text-base text-gray-800">

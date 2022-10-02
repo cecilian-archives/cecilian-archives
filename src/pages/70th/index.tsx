@@ -117,18 +117,13 @@ const Home70th: NextPageWithLayout = () => {
 
       <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
-          <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">What now?</h2>
+          <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">Book Your Tickets</h2>
           <p className="text-center text-lg py-4">
-            More details of each event, including timings, will be available on these pages soon, as
-            will the ability to buy tickets to each event.
-          </p>
-          <p className="text-center text-lg py-4">
-            What we really want to know right now is what you'd like to do in the Anniversary
-            Concert! Head on over to the Concert page for full details.
+            Tickets for each of the anniversary events are now available!
           </p>
         </div>
-        <ButtonLink to="/70th/concert" variant="solid" colour="secondary" className="mb-6">
-          Concert Breakdown
+        <ButtonLink to="/70th/tickets" variant="solid" colour="secondary" className="mb-6">
+          Ticket Info
         </ButtonLink>
       </section>
     </>

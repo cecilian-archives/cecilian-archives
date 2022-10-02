@@ -29,8 +29,9 @@ const Dashboard: NextPageWithLayout = () => {
             className="w-auto max-h-12 border border-archiveYellow-700 rounded-xl"
           />
           <h2 className="mt-6 text-3xl tracking-tight text-white">Dashboard</h2>
+          <p className="mt-2 text-sm text-gray-200">Logged in as {session?.user?.email}</p>
           <p className="mt-2 text-sm text-gray-200">
-            Logged in as {JSON.stringify(session, null, 2)}
+            Login session will expire at {session?.expires}
           </p>
           <ButtonLink onClick={handleSignOut}>Log out</ButtonLink>
         </div>
