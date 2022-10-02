@@ -5,7 +5,7 @@ type ModelIdPrefixes = {
 };
 
 export const modelIdPrefixes: ModelIdPrefixes = {
-  Account: "acct",
+  Account: "acc",
   VerificationToken: undefined,
   User: "usr",
   UserRole: undefined,

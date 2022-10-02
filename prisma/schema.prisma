@@ -14,7 +14,7 @@ datasource db {
 // ---------------------------------------------------------
 
 model Account {
-    id                String  @id @default("acct")
+    id                String  @id @default("acc")
     userId            String
     type              String
     provider          String
@@ -99,7 +99,7 @@ enum SystemRole {
 }
 
 model UserProfile {
-    id         String    @id @default("usrprof")
+    id         String    @id @default("usrprf")
     user       User      @relation("ProfileOwner", fields: [userId], references: [id])
     userId     String    @unique
     cecilian   Cecilian? @relation("ProfileCecilian", fields: [cecilianId], references: [id])
@@ -118,7 +118,7 @@ model UserProfile {
 }
 
 model UserContact {
-    id            String                @id @default("usrcont")
+    id            String                @id @default("usrctc")
     userProfile   UserProfile           @relation(fields: [userProfileId], references: [id])
     userProfileId String
     type          UserContactType
