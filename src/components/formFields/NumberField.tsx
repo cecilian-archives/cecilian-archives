@@ -68,6 +68,7 @@ const NumberField = ({
           <input
             type="text"
             placeholder={placeholder}
+            inputMode="numeric"
             {...register(name, {
               ...options,
               pattern: { value: /^-?\d+$/, message: "Please enter a number, with no decimals" },

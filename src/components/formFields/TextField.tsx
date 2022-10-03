@@ -12,6 +12,7 @@ interface TextFieldProps {
   onBackground?: "light" | "dark";
   widthClasses?: string;
   prefix?: string;
+  inputMode?: string;
 }
 
 const TextField = ({
@@ -25,6 +26,7 @@ const TextField = ({
   onBackground = "light",
   widthClasses = "",
   prefix = "",
+  inputMode = undefined,
 }: TextFieldProps) => {
   const labelColour = onBackground === "light" ? "text-gray-800" : "text-white";
   const errorColour = onBackground === "light" ? "text-red-700" : "text-red-300";
@@ -45,6 +47,7 @@ const TextField = ({
         <input
           type={type}
           placeholder={placeholder}
+          inputMode={inputMode}
           {...register(name, { ...options, setValueAs: (val: string) => val.trim() })}
           className={`text-black ${widthClass} ${prefixClass} rounded border border-archiveBlue-700 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-archiveBlue-400`}
         />

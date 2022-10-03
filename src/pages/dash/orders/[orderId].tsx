@@ -271,6 +271,7 @@ const Tickets70th: NextPageWithLayout = () => {
             errors={errors}
             widthClasses="w-full md:w-1/2"
             prefix="£"
+            inputMode="decimal"
           />
           <p className="-mt-2 text-gray-700">
             Enter the amount here if so. This is entirely optional, and any donation you make will
@@ -293,7 +294,7 @@ const Tickets70th: NextPageWithLayout = () => {
             Confirm and Pay
           </ButtonLink>
         </div>
-        <div className="w-full text-right">
+        <div className="w-full text-center md:text-right">
           {Boolean(upsertOrder.isError) && (
             <span className="text-base text-center max-w-prose text-red-600 mt-2">
               Something went wrong. Please try again.
