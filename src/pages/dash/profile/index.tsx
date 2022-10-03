@@ -1,29 +1,31 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
+import type { GetServerSideProps } from "next";
 import DashLayout from "src/components/DashLayout";
 
-import { useSession, signOut } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { getToken } from "next-auth/jwt";
+import { authOptions } from "src/pages/api/auth/[...nextauth]";
+import { prisma } from "src/server/db/client";
+
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import ButtonLink from "src/components/ButtonLink";
 import { TextField, TextArea } from "src/components/formFields";
 import StarDivider from "src/components/StarDivider";
 import { trpc } from "src/utils/trpc";
 
-import { getSessionInSSP } from "src/utils/getSessionInSSP";
 import { ProfileCreateInput } from "src/server/trpc/router/profile";
 
 const Profile: NextPageWithLayout = () => {
   const { data: session, status } = useSession();
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -33,10 +35,13 @@ const Profile: NextPageWithLayout = () => {
 
   const createProfile = trpc.profile.createUserProfile.useMutation();
 
-  const onSubmit = (data: ProfileCreateInput) => {
-    console.log(data);
+  const onSubmit = async (data: ProfileCreateInput) => {
     createProfile.mutate(data);
   };
+
+  if (createProfile.isSuccess) {
+    router.push("/dash/orders");
+  }
 
   return status === "loading" ? null : (
     <div className="flex flex-1 flex-col justify-start w-full min-h-screen bg-archiveBlue-50 py-8 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -130,9 +135,14 @@ const Profile: NextPageWithLayout = () => {
         </fieldset>
         <StarDivider spacingClass="py-6" bgClass="bg-archiveBlue-50" />
         <div className="w-full flex justify-center items-center py-2">
-          <ButtonLink buttonType="submit" onClick={() => {}}>
+          <ButtonLink buttonType="submit" onClick={() => {}} loading={createProfile.isLoading}>
             Save and Continue
           </ButtonLink>
+          {Boolean(createProfile.isError) && (
+            <span className="text-base text-center max-w-prose text-red-600 mt-2">
+              Something went wrong. Please try again.
+            </span>
+          )}
         </div>
       </form>
     </div>
@@ -145,4 +155,27 @@ Profile.getLayout = (page: ReactElement) => {
 
 export default Profile;
 
-export { getSessionInSSP as getServerSideProps };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  const token = await getToken({ req: context.req });
+
+  const user = await prisma.user.findUnique({
+    where: { id: token?.sub },
+    include: { profile: true },
+  });
+
+  if (Boolean(user?.profile)) {
+    return {
+      redirect: {
+        destination: "/dash/orders",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+};

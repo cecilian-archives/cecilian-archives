@@ -45,6 +45,15 @@ export const salesOrdersRouter = t.router({
         });
         if (order === null) return null;
         if (order.paymentConfirmed) return null;
+        order = await ctx.prisma.salesOrder.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            orderDetails: input.orderDetails,
+          },
+          include: { user: true },
+        });
       } else {
         order = await ctx.prisma.salesOrder.create({
           data: {

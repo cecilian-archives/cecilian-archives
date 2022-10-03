@@ -40,7 +40,7 @@ const Login: NextPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const redirectedFrom = router.query?.redirectedFrom?.toString();
+  const redirectedFrom = router.query?.callbackUrl?.toString();
   const redirectTo = redirectedFrom || "/dash";
 
   const {
@@ -67,12 +67,7 @@ const Login: NextPage = () => {
 
   const handleProviderSignIn = async (provider: Provider) => {
     setLoadingStatus(`loading:${provider}`);
-    await signIn();
-    // TODO:
-    // {
-    //   provider,
-    // },
-    // { redirectTo }
+    await signIn(provider);
   };
 
   if (session) {

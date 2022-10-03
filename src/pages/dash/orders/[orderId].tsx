@@ -1,7 +1,14 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
+import type { GetServerSideProps } from "next";
 import DashLayout from "src/components/DashLayout";
 
+import { unstable_getServerSession } from "next-auth/next";
+import { getToken } from "next-auth/jwt";
+import { authOptions } from "src/pages/api/auth/[...nextauth]";
+import { prisma } from "src/server/db/client";
+
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import ButtonLink from "src/components/ButtonLink";
@@ -10,10 +17,9 @@ import StarDivider from "src/components/StarDivider";
 import { trpc } from "src/utils/trpc";
 import { getTotalCost, numberiseInputs } from "src/server/checkout/eventHelpers";
 
-import { getSessionInSSP } from "src/utils/getSessionInSSP";
-
 const Tickets70th: NextPageWithLayout = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  const router = useRouter();
 
   const {
     register,
@@ -32,10 +38,17 @@ const Tickets70th: NextPageWithLayout = () => {
     },
   });
 
-  const upsertOrder = trpc.salesOrders.upsertUserOrder.useMutation();
+  const upsertOrder = trpc.salesOrders.upsertUserOrder.useMutation({
+    onSuccess: (data) => {
+      const checkoutSession = data?.checkoutSession as { url: string; expires_at: number };
+      window.location.href = checkoutSession.url;
+    },
+  });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const { orderId } = router.query;
+    const id = (orderId && orderId !== "new" ? orderId : undefined) as string | undefined;
+
     const orderDetails = {
       ...data,
       ...numberiseInputs({
@@ -45,7 +58,8 @@ const Tickets70th: NextPageWithLayout = () => {
         donationVal: data.donationValue,
       }),
     };
-    upsertOrder.mutate({ orderDetails });
+
+    upsertOrder.mutate({ id, orderDetails });
   };
 
   const [ceilidhQtyVal, concertQtyVal, dinnerQtyVal, donationVal] = watch([
@@ -271,9 +285,20 @@ const Tickets70th: NextPageWithLayout = () => {
               £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100 + donationValue}
             </b>
           </p>
-          <ButtonLink buttonType="submit" onClick={() => {}}>
+          <ButtonLink
+            buttonType="submit"
+            onClick={() => {}}
+            loading={upsertOrder.isLoading || upsertOrder.isSuccess}
+          >
             Confirm and Pay
           </ButtonLink>
+        </div>
+        <div className="w-full text-right">
+          {Boolean(upsertOrder.isError) && (
+            <span className="text-base text-center max-w-prose text-red-600 mt-2">
+              Something went wrong. Please try again.
+            </span>
+          )}
         </div>
       </form>
     </div>
@@ -286,4 +311,27 @@ Tickets70th.getLayout = (page: ReactElement) => {
 
 export default Tickets70th;
 
-export { getSessionInSSP as getServerSideProps };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  const token = await getToken({ req: context.req });
+
+  const user = await prisma.user.findUnique({
+    where: { id: token?.sub },
+    include: { profile: true },
+  });
+
+  if (!user?.profile) {
+    return {
+      redirect: {
+        destination: "/dash/profile",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+};

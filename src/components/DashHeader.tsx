@@ -88,7 +88,7 @@ const Header = () => {
                     <Popover.Button
                       className={classNames(
                         open ? "text-gray-50" : "text-gray-100",
-                        "group inline-flex items-center rounded-md bg-archiveBlue-500 text-base font-medium hover:text-archiveYellow-500 focus:outline-none focus:ring-2 focus:ring-archiveYellow-500 focus:ring-offset-4 focus:ring-offset-archiveBlue-500"
+                        "group inline-flex items-center rounded-md bg-archiveBlue-500 text-base font-title hover:text-archiveYellow-500 focus:outline-none focus:ring-2 focus:ring-archiveYellow-500 focus:ring-offset-4 focus:ring-offset-archiveBlue-500"
                       )}
                     >
                       <span>Archive</span>
@@ -150,7 +150,7 @@ const Header = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-base font-medium text-gray-100 hover:text-archiveYellow-500"
+                  className="text-base font-title text-gray-100 hover:text-archiveYellow-500"
                 >
                   {item.name}
                 </a>
