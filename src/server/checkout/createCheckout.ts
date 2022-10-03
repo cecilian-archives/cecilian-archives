@@ -55,6 +55,10 @@ const createCheckout = async ({ order }: { order: Order }) => {
   const stripe = new Stripe(process.env.STRIPE_API_KEY as string, {} as Stripe.StripeConfig);
   const line_items = getLineItems(order.orderDetails as OrderDetails);
 
+  const redirectBase = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXTAUTH_URL;
+
   const session = await stripe.checkout.sessions.create({
     customer_email: order.user.email || undefined,
     client_reference_id: order.user.id,
@@ -64,8 +68,8 @@ const createCheckout = async ({ order }: { order: Order }) => {
     line_items,
     allow_promotion_codes: true,
     mode: "payment",
-    success_url: `${process.env.VERCEL_URL}/dash/orders/?complete=${order.id}`,
-    cancel_url: `${process.env.VERCEL_URL}/dash/orders/${order.id}`,
+    success_url: `${redirectBase}/dash/orders/?complete=${order.id}`,
+    cancel_url: `${redirectBase}/dash/orders/${order.id}`,
   });
 
   return session;
