@@ -194,7 +194,7 @@ const Tickets70th: NextPageWithLayout = () => {
         <div className="w-full flex flex-row justify-between items-center">
           <h3 className="text-xl mt-2">Total Ticket Cost</h3>
           <p className="text-xl font-title mt-2 font-bold">
-            £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100}
+            £{(getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100).toFixed(2)}
           </p>
         </div>
         <p className="text-gray-700 text-sm mt-1 mb-2 max-w-[60vw]">
@@ -283,7 +283,10 @@ const Tickets70th: NextPageWithLayout = () => {
           <p className="text-gray-900 text-xl font-title p-3 md:p-2 pt-0 border-b border-archiveYellow-500">
             Grand Total:{" "}
             <b className="text-black">
-              £{getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100 + donationValue}
+              £
+              {(getTotalCost({ ceilidhQty, concertQty, dinnerQty }) / 100 + donationValue).toFixed(
+                2
+              )}
             </b>
           </p>
           <ButtonLink

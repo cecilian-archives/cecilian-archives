@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     include: { orders: true },
   });
 
-  if (!user?.orders) {
+  if (!user?.orders?.length) {
     return {
       redirect: {
         destination: "/dash/orders/new",
