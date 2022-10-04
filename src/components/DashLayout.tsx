@@ -13,7 +13,10 @@ const DashLayout = ({ children }: Props) => {
   return (
     <div className="w-screen min-h-screen flex flex-col justify-start items-center">
       <DashHeader />
-      <main key={router.asPath} className="w-screen flex flex-col justify-start items-center">
+      <main
+        key={router.asPath}
+        className="w-screen flex-1 bg-archiveBlue-50 flex flex-col justify-start items-center"
+      >
         {children}
       </main>
       <DashFooter />

@@ -65,7 +65,7 @@ const Header = () => {
       <div className="relative z-20 w-full">
         <div className="mx-auto flex w-full items-center justify-between px-4 py-5 sm:px-6 sm:py-4 md:justify-start md:space-x-10 lg:px-8 border-b-8 border-archiveYellow-500">
           <div>
-            <a href="/dash" className="flex">
+            <a href="/" className="flex">
               <span className="sr-only">Cecilian Archives</span>
               <img
                 src="/images/logo.svg"
