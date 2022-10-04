@@ -82,17 +82,7 @@ const Profile: NextPageWithLayout = () => {
             name="otherNames"
             label="Previous/Other Names"
             register={register}
-            options={{
-              required: {
-                value: false,
-                message: "",
-              },
-              pattern: {
-                value:
-                  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                message: "That doesn't look like a valid email address",
-              },
-            }}
+            options={{ required: false }}
             errors={errors}
           />
           <p className="-mt-2 text-gray-700">
