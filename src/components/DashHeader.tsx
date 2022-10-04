@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+import { signOut } from "next-auth/react";
+import ButtonLink from "src/components/ButtonLink";
 import { Popover, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -59,6 +61,9 @@ function classNames(...classes: any[]) {
 }
 
 const Header = () => {
+  const handleSignOut = async () => {
+    await signOut();
+  };
   return (
     <Popover as="header" className="relative bg-archiveBlue-500 w-full">
       <div className="pointer-events-none absolute inset-0 z-30" aria-hidden="true" />
@@ -156,6 +161,9 @@ const Header = () => {
                 </a>
               ))}
             </Popover.Group>
+            <ButtonLink width="fit" buttonType="button" onClick={handleSignOut}>
+              Sign out
+            </ButtonLink>
           </div>
         </div>
       </div>
@@ -232,6 +240,17 @@ const Header = () => {
                   </div>
                 </nav>
               </div>
+            </div>
+            <div className="px-5 py-2 bg-archiveBlue-50 rounded-b-lg">
+              <ButtonLink
+                width="fit"
+                buttonType="button"
+                variant="outline"
+                colour="primary"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </ButtonLink>
             </div>
           </div>
         </Popover.Panel>
