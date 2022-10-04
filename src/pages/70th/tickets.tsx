@@ -76,8 +76,8 @@ const Tickets70th: NextPageWithLayout = () => {
           Claim the Discount
         </ButtonLink>
         <p className="py-4 text-lg">
-          To take advantage of this rate, simply book using the button above at least 21 days before
-          arrival.
+          To take advantage of this rate, simply book using the button above. You can edit dates and
+          guest numbers on the hotel site.
         </p>
 
         <StarDivider bgClass="bg-archiveBlue-50" />

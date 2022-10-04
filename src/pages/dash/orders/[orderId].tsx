@@ -1,6 +1,8 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
 import type { GetServerSideProps } from "next";
+import type { SalesOrder } from "@prisma/client";
+import type { OrderDetails } from "src/server/trpc/router/salesOrders";
 import DashLayout from "src/components/DashLayout";
 
 import { unstable_getServerSession } from "next-auth/next";
@@ -11,15 +13,35 @@ import { prisma } from "src/server/db/client";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import superjson from "superjson";
 import ButtonLink from "src/components/ButtonLink";
 import { TextField, TextArea, NumberField } from "src/components/formFields";
 import StarDivider from "src/components/StarDivider";
 import { trpc } from "src/utils/trpc";
 import { getTotalCost, numberiseInputs } from "src/server/checkout/eventHelpers";
 
-const Tickets70th: NextPageWithLayout = () => {
+interface PageProps {
+  order: string;
+}
+
+const Tickets70th: NextPageWithLayout<PageProps> = ({ order }) => {
   const { status } = useSession();
   const router = useRouter();
+
+  const salesOrder: SalesOrder | null = superjson.parse(order);
+  const orderDetails = salesOrder?.orderDetails as OrderDetails | undefined;
+
+  const defaultValues = {
+    ceilidhQty: orderDetails?.ceilidhQty !== undefined ? String(orderDetails?.ceilidhQty) : "1",
+    concertQty: orderDetails?.concertQty !== undefined ? String(orderDetails?.concertQty) : "1",
+    dinnerQty: orderDetails?.dinnerQty !== undefined ? String(orderDetails?.dinnerQty) : "1",
+    donationValue:
+      orderDetails?.donationValue !== undefined ? String(orderDetails?.donationValue) : "0",
+    dinnerFirstNames: orderDetails?.dinnerFirstNames,
+    dinnerLastNames: orderDetails?.dinnerLastNames,
+    specialReqs: orderDetails?.specialReqs,
+    seatingReqs: orderDetails?.seatingReqs,
+  };
 
   const {
     register,
@@ -30,12 +52,7 @@ const Tickets70th: NextPageWithLayout = () => {
     setValue,
   } = useForm({
     mode: "onBlur",
-    defaultValues: {
-      ceilidhQty: "1",
-      concertQty: "1",
-      dinnerQty: "1",
-      donationValue: "0",
-    },
+    defaultValues,
   });
 
   const upsertOrder = trpc.salesOrders.upsertUserOrder.useMutation({
@@ -62,12 +79,10 @@ const Tickets70th: NextPageWithLayout = () => {
     upsertOrder.mutate({ id, orderDetails });
   };
 
-  const [ceilidhQtyVal, concertQtyVal, dinnerQtyVal, donationVal] = watch([
-    "ceilidhQty",
-    "concertQty",
-    "dinnerQty",
-    "donationValue",
-  ]);
+  const [ceilidhQtyVal, concertQtyVal, dinnerQtyVal, donationVal] = watch(
+    ["ceilidhQty", "concertQty", "dinnerQty", "donationValue"],
+    defaultValues
+  );
   const { ceilidhQty, concertQty, dinnerQty, donationValue } = numberiseInputs({
     ceilidhQtyVal,
     concertQtyVal,
@@ -139,7 +154,7 @@ const Tickets70th: NextPageWithLayout = () => {
                   >
                     Glasgow University Union
                   </a>
-                  , 7 for 7.30pm
+                  , doors 7pm, curtain 7.30pm
                 </span>
               </p>
             }
@@ -174,7 +189,7 @@ const Tickets70th: NextPageWithLayout = () => {
                   >
                     Glasgow Grosvenor Hotel
                   </a>
-                  , 7.30 for 8.00pm
+                  , 7.00 for 7.30pm
                 </span>
               </p>
             }
@@ -333,9 +348,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
+  const orderId = context.query.orderId as string;
+
+  const order = await prisma.salesOrder.findUnique({
+    where: { id: orderId },
+  });
+
+  if (order && order.paymentConfirmed) {
+    return {
+      redirect: {
+        destination: `/dash/orders?complete=${order.id}`,
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       session,
+      order: superjson.stringify(order),
     },
   };
 };

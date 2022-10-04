@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
 import type { GetServerSideProps } from "next";
+import type { SalesOrder } from "@prisma/client";
 import DashLayout from "src/components/DashLayout";
 
 import { unstable_getServerSession } from "next-auth/next";
@@ -10,25 +11,42 @@ import { prisma } from "src/server/db/client";
 
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import ButtonLink from "src/components/ButtonLink";
+import superjson from "superjson";
+import SalesOrderList from "src/components/SalesOrderList";
 import StarDivider from "src/components/StarDivider";
+import ButtonLink from "src/components/ButtonLink";
 import { trpc } from "src/utils/trpc";
 
-const TicketOrders: NextPageWithLayout = () => {
+interface PageProps {
+  orders: string;
+}
+
+const TicketOrders: NextPageWithLayout<PageProps> = ({ orders }) => {
   const { status } = useSession();
   const router = useRouter();
 
+  const { complete } = router.query;
+
+  const serverOrders: SalesOrder[] = superjson.parse(orders);
   const userOrders = trpc.salesOrders.getUserOrders.useQuery();
 
+  const orderData = userOrders.isLoading ? serverOrders : userOrders.data;
+
   return status === "loading" ? null : (
-    <div className="flex flex-1 flex-col justify-start w-full min-h-screen bg-archiveBlue-50 py-8 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-      <div className="max-w-prose mx-auto">
+    <div className="flex flex-1 flex-col justify-start w-full bg-archiveBlue-50 py-8 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl tracking-tight text-black">Your Ticket Orders</h2>
-        <p className="mt-2 mb-8 text-base text-gray-800">
-          This is a holding page for order management and payment confirmation.
+        <p className="mt-2 text-base text-gray-800">
+          Manage your ticket orders from here. Any unconfirmed orders must go through checkout
+          before the tickets become valid.
         </p>
+        <div className="w-full mt-4 flex justify-center">
+          <ButtonLink to="/dash/orders/new" colour="secondary">
+            Start New Order
+          </ButtonLink>
+        </div>
         <StarDivider spacingClass="py-6" bgClass="bg-archiveBlue-50" />
-        {/* <pre>Order data: {JSON.stringify(userOrders, null, 2)}</pre> */}
+        <SalesOrderList orders={orderData} highlightId={complete as string} />
       </div>
     </div>
   );
@@ -61,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       session,
+      orders: superjson.stringify(user.orders),
     },
   };
 };

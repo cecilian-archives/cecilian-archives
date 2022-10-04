@@ -4,6 +4,12 @@ import { confirmPayment } from "src/server/checkout/confirmPayment";
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string, {} as Stripe.StripeConfig);
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("Invoked checkoutCompleteWebhook function");
 
@@ -14,6 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const payload = req.body;
   const signature = req.headers["stripe-signature"] as string;
   let stripeEvent;
+
+  console.log(payload, signature);
 
   try {
     stripeEvent = stripe.webhooks.constructEvent(

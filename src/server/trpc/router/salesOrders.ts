@@ -23,6 +23,25 @@ export const salesOrdersRouter = t.router({
         user: {
           id: ctx.token?.sub,
         },
+        checkoutSession: {
+          path: ["expires_at"],
+          gte: Date.now() / 1000,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }),
+  getUserOrder: t.procedure.input(z.string()).query(({ input, ctx }) => {
+    return ctx.prisma.salesOrder.findFirst({
+      where: {
+        id: input,
+        user: {
+          id: ctx.token?.sub,
+        },
+        checkoutSession: {
+          path: ["expires_at"],
+          gte: Date.now() / 1000,
+        },
       },
     });
   }),
