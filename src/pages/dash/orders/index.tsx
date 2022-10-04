@@ -62,12 +62,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await unstable_getServerSession(context.req, context.res, authOptions);
   const token = await getToken({ req: context.req });
 
-  const user = await prisma.user.findUnique({
-    where: { id: token?.sub },
-    include: { orders: { orderBy: { createdAt: "desc" } } },
+  const orders = await prisma.salesOrder.findMany({
+    where: {
+      user: {
+        id: token?.sub,
+      },
+      OR: [
+        { paymentConfirmed: true },
+        {
+          checkoutSession: {
+            path: ["expires_at"],
+            gte: Date.now() / 1000,
+          },
+        },
+      ],
+    },
+    orderBy: { createdAt: "desc" },
   });
 
-  if (!user?.orders?.length) {
+  if (!orders?.length) {
     return {
       redirect: {
         destination: "/dash/orders/new",
@@ -79,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       session,
-      orders: superjson.stringify(user.orders),
+      orders: superjson.stringify(orders),
     },
   };
 };

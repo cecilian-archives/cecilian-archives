@@ -23,10 +23,15 @@ export const salesOrdersRouter = t.router({
         user: {
           id: ctx.token?.sub,
         },
-        checkoutSession: {
-          path: ["expires_at"],
-          gte: Date.now() / 1000,
-        },
+        OR: [
+          { paymentConfirmed: true },
+          {
+            checkoutSession: {
+              path: ["expires_at"],
+              gte: Date.now() / 1000,
+            },
+          },
+        ],
       },
       orderBy: { createdAt: "desc" },
     });
