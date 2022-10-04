@@ -2,10 +2,17 @@ import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
 import Layout70th from "src/components/70th/Layout70th";
 
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import ButtonLink from "src/components/ButtonLink";
 import StarDivider from "src/components/StarDivider";
 
 const Tickets70th: NextPageWithLayout = () => {
+  const router = useRouter();
+  useEffect(() => {
+    router.prefetch("/dash/orders");
+    router.prefetch("/login");
+  }, []);
   return (
     <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
       <div className="w-full max-w-prose mx-auto">

@@ -1,6 +1,7 @@
 import type { SalesOrder } from "@prisma/client";
 import type { OrderDetails } from "src/server/trpc/router/salesOrders";
 
+import Link from "next/link";
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -117,16 +118,17 @@ const SalesOrderList = ({ orders, highlightId }: OrderListProps) => {
           } else {
             return (
               <li key={order.id}>
-                <a
-                  href={`/dash/orders/${order.id}`}
-                  className={`flex items-center p-4 sm:px-6 group ${
-                    highlighted
-                      ? "bg-archiveYellow-50"
-                      : "bg-archiveBlue-50 hover:bg-archiveBlue-100"
-                  }`}
-                >
-                  <SalesOrderItem order={order} />
-                </a>
+                <Link href={`/dash/orders/${order.id}`}>
+                  <a
+                    className={`flex items-center p-4 sm:px-6 group ${
+                      highlighted
+                        ? "bg-archiveYellow-50"
+                        : "bg-archiveBlue-50 hover:bg-archiveBlue-100"
+                    }`}
+                  >
+                    <SalesOrderItem order={order} />
+                  </a>
+                </Link>
               </li>
             );
           }
