@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const user = await prisma.user.findUnique({
     where: { id: token?.sub },
-    include: { orders: true },
+    include: { orders: { orderBy: { createdAt: "desc" } } },
   });
 
   if (!user?.orders?.length) {
