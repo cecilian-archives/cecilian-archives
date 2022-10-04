@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json(`Verb mismatch. You cannot ${req.method} this endpoint.`);
   }
 
-  const payload = await buffer(req.body);
+  const payload = await buffer(req);
   const signature = req.headers["stripe-signature"] as string;
   let stripeEvent;
 
