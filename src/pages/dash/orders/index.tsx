@@ -59,8 +59,9 @@ TicketOrders.getLayout = (page: ReactElement) => {
 export default TicketOrders;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  const token = await getToken({ req: context.req });
+  const sessionPromise = unstable_getServerSession(context.req, context.res, authOptions);
+  const tokenPromise = getToken({ req: context.req });
+  const [session, token] = await Promise.all([sessionPromise, tokenPromise]);
 
   const orders = await prisma.salesOrder.findMany({
     where: {

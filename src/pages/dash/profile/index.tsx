@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "src/pages/_app";
 import type { GetServerSideProps } from "next";
+import type { ProfileCreateInput } from "src/server/trpc/router/profile";
 import DashLayout from "src/components/DashLayout";
 
 import { unstable_getServerSession } from "next-auth/next";
@@ -8,6 +9,7 @@ import { getToken } from "next-auth/jwt";
 import { authOptions } from "src/pages/api/auth/[...nextauth]";
 import { prisma } from "src/server/db/client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -16,11 +18,13 @@ import { TextField, TextArea } from "src/components/formFields";
 import StarDivider from "src/components/StarDivider";
 import { trpc } from "src/utils/trpc";
 
-import { ProfileCreateInput } from "src/server/trpc/router/profile";
-
 const Profile: NextPageWithLayout = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/dash/orders/new");
+  }, []);
 
   const {
     register,
@@ -156,8 +160,9 @@ Profile.getLayout = (page: ReactElement) => {
 export default Profile;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  const token = await getToken({ req: context.req });
+  const sessionPromise = unstable_getServerSession(context.req, context.res, authOptions);
+  const tokenPromise = getToken({ req: context.req });
+  const [session, token] = await Promise.all([sessionPromise, tokenPromise]);
 
   const user = await prisma.user.findUnique({
     where: { id: token?.sub },

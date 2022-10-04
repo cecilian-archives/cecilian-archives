@@ -331,13 +331,20 @@ Tickets70th.getLayout = (page: ReactElement) => {
 export default Tickets70th;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  const token = await getToken({ req: context.req });
+  const sessionPromise = unstable_getServerSession(context.req, context.res, authOptions);
+  const tokenPromise = getToken({ req: context.req });
+  const [session, token] = await Promise.all([sessionPromise, tokenPromise]);
 
-  const user = await prisma.user.findUnique({
+  const orderId = context.query.orderId as string;
+
+  const userPromise = prisma.user.findUnique({
     where: { id: token?.sub },
     include: { profile: true },
   });
+  const orderPromise = prisma.salesOrder.findUnique({
+    where: { id: orderId },
+  });
+  const [user, order] = await Promise.all([userPromise, orderPromise]);
 
   if (!user?.profile) {
     return {
@@ -347,12 +354,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-
-  const orderId = context.query.orderId as string;
-
-  const order = await prisma.salesOrder.findUnique({
-    where: { id: orderId },
-  });
 
   if (order && order.paymentConfirmed) {
     return {
