@@ -1,8 +1,8 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 
-const StarDivider = ({ bgClass = "bg-archiveYellow-50" }) => {
+const StarDivider = ({ spacingClass = "py-2", bgClass = "bg-archiveYellow-50" }) => {
   return (
-    <div className="relative w-full py-2">
+    <div className={`relative w-full ${spacingClass}`}>
       <div className="absolute inset-0 flex items-center" aria-hidden="true">
         <hr className="w-full mx-12 border-t border-archiveYellow-600" />
       </div>

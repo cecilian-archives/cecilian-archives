@@ -11,12 +11,27 @@ const Tickets70th: NextPageWithLayout = () => {
       <div className="w-full max-w-prose mx-auto">
         <h2 className="text-gray-900 text-4xl pt-4 pb-2">Ticket Prices</h2>
         <p className="py-4 text-lg">
-          Tickets for each of the anniversary weekend's events will be available to purchase shortly
-          via this site.
+          Tickets for each of the anniversary weekend's events are available to purchase now!
         </p>
+        <ButtonLink to="/dash/orders" variant="solid" colour="secondary">
+          Book Tickets
+        </ButtonLink>
         <p className="py-4 text-lg">
-          In the meantime, here are the prices for each event to aid with advance planning:
+          You'll need to create an account to purchase tickets. If you run into any issues with
+          this, please get in touch by emailing{" "}
+          <a
+            href="mailto:70th@cecilianarchives.com"
+            target="_blank"
+            className="underline text-archiveBlue-600 hover:text-archiveBlue-400"
+          >
+            70th@cecilianarchives.com
+          </a>{" "}
+          so we can help you out.
         </p>
+
+        <StarDivider bgClass="bg-archiveBlue-50" />
+
+        <p className="py-4 text-lg">Here are the prices for each event to aid with planning:</p>
         <ul className="list-disc px-10 py-4 text-lg">
           <li>
             Ceilidh: <b>£15</b>
@@ -61,8 +76,8 @@ const Tickets70th: NextPageWithLayout = () => {
           Claim the Discount
         </ButtonLink>
         <p className="py-4 text-lg">
-          To take advantage of this rate, simply book using the button above at least 21 days before
-          arrival.
+          To take advantage of this rate, simply book using the button above. You can edit dates and
+          guest numbers on the hotel site.
         </p>
 
         <StarDivider bgClass="bg-archiveBlue-50" />

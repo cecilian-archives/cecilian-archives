@@ -4,7 +4,7 @@ import LoadingIndicator from "src/components/LoadingIndicator";
 
 interface ButtonLinkBase {
   className?: string;
-  width?: "fixed" | "adaptive";
+  width?: "fixed" | "adaptive" | "full";
   children: React.ReactNode;
   loading?: boolean;
   variant?: "solid" | "outline";
@@ -44,6 +44,7 @@ const variantClasses = {
 const widthClasses = {
   fixed: "w-56 max-w-full",
   adaptive: "w-max max-w-full min-w-[14rem]", // 14rem = w-56
+  full: "w-full min-w-[14rem]",
 };
 
 const ButtonLink = forwardRef(
@@ -57,7 +58,7 @@ const ButtonLink = forwardRef(
       colour = "primary",
       textColour = "dark",
       width = "adaptive",
-      buttonType = undefined,
+      buttonType = "button",
       className = "",
       children,
     }: ButtonLinkProps,

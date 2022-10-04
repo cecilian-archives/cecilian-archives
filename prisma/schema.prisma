@@ -9,16 +9,55 @@ datasource db {
 
 // ---------------------------------------------------------
 //
+//  NEXT-AUTH
+//
+// ---------------------------------------------------------
+
+model Account {
+    id                String  @id @default("acc")
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+// ---------------------------------------------------------
+//
 //  USERS AND PROFILES
 //
 // ---------------------------------------------------------
 
 model User {
-    id              String       @id @default(cuid())
-    userUid         String       @unique
+    id            String    @id @default("usr")
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+
     profile         UserProfile? @relation("ProfileOwner")
-    verifiedByKey   AccessKey    @relation("AccessKeyUser", fields: [verifiedByKeyId], references: [id])
-    verifiedByKeyId String
+    verifiedByKey   AccessKey?   @relation("AccessKeyUser", fields: [verifiedByKeyId], references: [id])
+    verifiedByKeyId String?
+    accessKeys      AccessKey[]  @relation("AccessKeyOwner")
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -36,6 +75,8 @@ model User {
     collectionsUpdated   ArchiveCollection[] @relation("CollectionUpdatedBy")
     collectionsDeleted   ArchiveCollection[] @relation("CollectionDeletedBy")
     collectionItemsAdded CollectionItem[]    @relation("CollectionItemAddedBy")
+
+    orders SalesOrder[]
 }
 
 model UserRole {
@@ -58,12 +99,11 @@ enum SystemRole {
 }
 
 model UserProfile {
-    id         String      @id @default(cuid())
-    user       User        @relation("ProfileOwner", fields: [userId], references: [id])
-    userId     String      @unique
-    cecilian   Cecilian?   @relation("ProfileCecilian", fields: [cecilianId], references: [id])
-    cecilianId String?     @unique
-    accessKeys AccessKey[] @relation("AccessKeyOwner")
+    id         String    @id @default("usrprf")
+    user       User      @relation("ProfileOwner", fields: [userId], references: [id])
+    userId     String    @unique
+    cecilian   Cecilian? @relation("ProfileCecilian", fields: [cecilianId], references: [id])
+    cecilianId String?   @unique
 
     title          String?
     firstNames     String?
@@ -78,14 +118,14 @@ model UserProfile {
 }
 
 model UserContact {
-    id            String                @id @default(cuid())
+    id            String                @id @default("usrctc")
     userProfile   UserProfile           @relation(fields: [userProfileId], references: [id])
     userProfileId String
     type          UserContactType
     customType    String?
     value         String
     notes         String?
-    visibility    UserContactVisibility @default(VISIBLE)
+    visibility    UserContactVisibility @default(HIDDEN)
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -105,11 +145,11 @@ enum UserContactVisibility {
 }
 
 model AccessKey {
-    id      String       @id @default(cuid())
-    key     String       @unique
-    owner   UserProfile? @relation("AccessKeyOwner", fields: [ownerId], references: [id])
+    id      String  @id @default("usrkey")
+    key     String  @unique
+    owner   User?   @relation("AccessKeyOwner", fields: [ownerId], references: [id])
     ownerId String?
-    usedBy  User[]       @relation("AccessKeyUser")
+    usedBy  User[]  @relation("AccessKeyUser")
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -123,7 +163,7 @@ model AccessKey {
 // ---------------------------------------------------------
 
 model Cecilian {
-    id          String  @id @default(cuid())
+    id          String  @id @default("cec")
     displayName String
     otherNames  String?
 
@@ -149,7 +189,7 @@ model ArchiveItemCecilian {
 }
 
 model ArchiveItem {
-    id             String          @id @default(cuid())
+    id             String          @id @default("item")
     archiveRef     String
     type           ArchiveItemType
     associatedDate DateTime?
@@ -179,7 +219,7 @@ enum ArchiveItemType {
 }
 
 model ArchiveFile {
-    id   String          @id @default(cuid())
+    id   String          @id @default("file")
     kind ArchiveFileKind
 
     name  String
@@ -224,7 +264,7 @@ model ArchiveItemFile {
 // ---------------------------------------------------------
 
 model Year {
-    id        Int       @id /// e.g. 0 for 1952-53, 1 for 1953-54 etc.
+    id        String    @id @default("year") /// e.g. year_1952 for 1952-53, year_1953 for 1953-54 etc.
     name      String    @unique /// e.g. 2010-2011
     startDate DateTime?
     endDate   DateTime?
@@ -238,11 +278,11 @@ model Year {
 }
 
 model Event {
-    id             String    @id @default(cuid())
+    id             String    @id @default("event")
     type           EventType
     name           String
     inherentYear   Year?     @relation(fields: [inherentYearId], references: [id])
-    inherentYearId Int?
+    inherentYearId String?
     startDate      DateTime?
     endDate        DateTime?
 
@@ -260,7 +300,7 @@ enum EventType {
 }
 
 model Role {
-    id   String   @id @default(cuid())
+    id   String   @id @default("role")
     type RoleType
     name String
 
@@ -279,14 +319,15 @@ enum RoleType {
 }
 
 model Tag {
-    id      String  @id @default(cuid())
+    // TODO: Need to rethink whether this cross-model is necessary and desirable
+    id      String  @id @default("tag")
     type    TagType
     role    Role?   @relation(fields: [roleId], references: [id])
     roleId  String?
     event   Event?  @relation(fields: [eventId], references: [id])
     eventId String?
     year    Year?   @relation(fields: [yearId], references: [id])
-    yearId  Int?
+    yearId  String?
 
     cecilians    CecilianTag[]
     archiveItems ArchiveItemTag[]
@@ -303,7 +344,7 @@ enum TagType {
 }
 
 model CecilianTag {
-    id         String   @id @default(cuid())
+    id         String   @id @default("ctag")
     cecilian   Cecilian @relation(fields: [cecilianId], references: [id])
     cecilianId String
     tag        Tag      @relation(fields: [tagId], references: [id])
@@ -314,7 +355,7 @@ model CecilianTag {
 }
 
 model ArchiveItemTag {
-    id     String      @id @default(cuid())
+    id     String      @id @default("atag")
     item   ArchiveItem @relation(fields: [itemId], references: [id])
     itemId String
     tag    Tag         @relation(fields: [tagId], references: [id])
@@ -331,7 +372,7 @@ model ArchiveItemTag {
 // ---------------------------------------------------------
 
 model ArchiveCollection {
-    id               String                @id @default(cuid())
+    id               String                @id @default("coll")
     type             ArchiveCollectionType
     name             String
     description      String?
@@ -371,7 +412,7 @@ enum ArchiveCollectionEditLevel {
 }
 
 model CollectionItem {
-    id           String            @id @default(cuid())
+    id           String            @id @default("collitem")
     collection   ArchiveCollection @relation(fields: [collectionId], references: [id])
     collectionId String
     item         ArchiveItem       @relation(fields: [itemId], references: [id])
@@ -411,4 +452,24 @@ model MailingListSubscription {
     updatedAt       DateTime    @default(now()) @updatedAt
 
     @@id([email, mailingListSlug])
+}
+
+// ---------------------------------------------------------
+//
+//  SALES ORDERS
+//
+// ---------------------------------------------------------
+
+model SalesOrder {
+    id     String @id @default("ord")
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    orderDetails     Json?
+    checkoutSession  Json?
+    paymentConfirmed Boolean @default(false)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 }
