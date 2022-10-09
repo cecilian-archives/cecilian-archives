@@ -103,4 +103,65 @@ export const salesOrdersRouter = t.router({
         },
       });
     }),
+  getAllAttendeeNames: t.procedure.query(async ({ ctx }) => {
+    const nestedAttendees = await ctx.prisma.salesOrder.findMany({
+      where: {
+        paymentConfirmed: true,
+      },
+      select: {
+        user: {
+          select: {
+            profile: {
+              select: {
+                id: true,
+                title: true,
+                firstNames: true,
+                lastNames: true,
+                otherNames: true,
+              },
+            },
+          },
+        },
+        orderDetails: true,
+      },
+      orderBy: [
+        { user: { profile: { firstNames: "asc" } } },
+        { user: { profile: { lastNames: "asc" } } },
+      ],
+    });
+
+    type attendee = {
+      id?: string;
+      title?: string | null;
+      firstNames?: string | null;
+      lastNames?: string | null;
+      otherNames?: string | null;
+      plus?: number;
+    };
+    let seenProfileIds: string[] = [];
+    return nestedAttendees.reduce<attendee[]>((acc, attendee) => {
+      const profile = attendee.user.profile;
+      const { ceilidhQty, concertQty, dinnerQty } = attendee.orderDetails as OrderDetails;
+      const largestQty = Math.max(ceilidhQty || 0, concertQty || 0, dinnerQty || 0);
+
+      if (seenProfileIds.includes(profile?.id as string)) {
+        const retVal = acc.find((attendee) => attendee?.id === profile?.id);
+        if (retVal) retVal.plus = (retVal?.plus || 0) + largestQty;
+        return acc;
+      } else {
+        seenProfileIds.push(profile?.id || "");
+        return [
+          ...acc,
+          {
+            id: profile?.id,
+            title: profile?.title,
+            firstNames: profile?.firstNames,
+            lastNames: profile?.lastNames,
+            otherNames: profile?.otherNames,
+            plus: largestQty - 1,
+          },
+        ];
+      }
+    }, []);
+  }),
 });
