@@ -40,9 +40,12 @@ const TicketOrders: NextPageWithLayout<PageProps> = ({ orders }) => {
           Manage your ticket orders from here. Any unconfirmed orders must go through checkout
           before the tickets become valid.
         </p>
-        <div className="w-full mt-4 flex justify-center">
+        <div className="w-full mt-4 flex flex-col md:flex-row justify-center items-center gap-1 md:gap-4">
           <ButtonLink to="/dash/orders/new" colour="secondary">
             Start New Order
+          </ButtonLink>
+          <ButtonLink to="/70th/attendees" colour="primary">
+            View Attendees
           </ButtonLink>
         </div>
         <StarDivider spacingClass="py-6" bgClass="bg-archiveBlue-50" />
