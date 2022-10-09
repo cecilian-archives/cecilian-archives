@@ -11,6 +11,7 @@ const navItems = [
   { href: "/70th", name: "Events" },
   { href: "/70th/concert", name: "Concert" },
   { href: "/70th/tickets", name: "Tickets" },
+  { href: "/70th/attendees", name: "Attendees" },
   { href: "/70th/contact", name: "Get In Touch" },
 ];
 
