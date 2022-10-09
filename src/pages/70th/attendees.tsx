@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import ButtonLink from "src/components/ButtonLink";
 import StarDivider from "src/components/StarDivider";
+import LoadingIndicator from "src/components/LoadingIndicator";
 import { trpc } from "src/utils/trpc";
 
 const Attendees70th: NextPageWithLayout = () => {
@@ -14,10 +15,7 @@ const Attendees70th: NextPageWithLayout = () => {
     router.prefetch("/70th/tickets");
   }, []);
 
-  // const serverOrders: SalesOrder[] = superjson.parse(orders);
   const attendees = trpc.salesOrders.getAllAttendeeNames.useQuery();
-
-  // const orderData = userOrders.isLoading ? serverOrders : userOrders.data;
 
   return (
     <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
@@ -33,15 +31,22 @@ const Attendees70th: NextPageWithLayout = () => {
 
         <StarDivider spacingClass="py-4" bgClass="bg-archiveBlue-50" />
 
-        <ul className="list-disc px-10 py-4 text-lg">
-          {attendees?.data?.map((attendee) => (
-            <li key={attendee?.id}>
-              {attendee?.firstNames} {attendee?.lastNames}{" "}
-              {attendee?.otherNames ? `(${attendee.otherNames})` : ""}{" "}
-              {attendee?.plus ? (attendee.plus !== 0 ? `[+${attendee.plus}]` : "") : ""}
-            </li>
-          ))}
-        </ul>
+        {!attendees.isFetched ? (
+          <div className="flex justify-center items-center gap-4">
+            <LoadingIndicator />
+            <p className="text-lg font-title">Loading list...</p>
+          </div>
+        ) : (
+          <ul className="list-disc px-6 md:px-10 py-4 text-lg">
+            {attendees?.data?.map((attendee) => (
+              <li key={attendee?.id}>
+                {attendee?.firstNames} {attendee?.lastNames}{" "}
+                {attendee?.otherNames ? `(${attendee.otherNames})` : ""}{" "}
+                {attendee?.plus ? (attendee.plus !== 0 ? `[+${attendee.plus}]` : "") : ""}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <StarDivider spacingClass="py-4" bgClass="bg-archiveBlue-50" />
       </div>
