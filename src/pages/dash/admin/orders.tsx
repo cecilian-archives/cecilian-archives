@@ -36,13 +36,16 @@ const orderFilter = (
       });
   const hasNumbers = (qty?: number) => Number(qty) > 0;
   const filterByEvent = (order: SingleOrder) => {
-    return queries.ceilidh
-      ? hasNumbers(order?.ceilidhQty)
-      : queries.concert
-      ? hasNumbers(order?.concertQty)
-      : queries.dinner
-      ? hasNumbers(order?.dinnerQty)
-      : false;
+    const hasNumbersFor = {
+      ceilidh: hasNumbers(order?.ceilidhQty),
+      concert: hasNumbers(order?.concertQty),
+      dinner: hasNumbers(order?.dinnerQty),
+    };
+    const shouldShow =
+      (queries.ceilidh && hasNumbersFor.ceilidh) ||
+      (queries.concert && hasNumbersFor.concert) ||
+      (queries.dinner && hasNumbersFor.dinner);
+    return shouldShow;
   };
   return nameFiltered.filter((order) => filterByEvent(order));
 };
