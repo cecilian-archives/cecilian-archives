@@ -191,9 +191,7 @@ export const salesOrdersRouter = t.router({
     });
     const orderList = nestedAttendees.map((order) => {
       const { title, firstNames, lastNames, otherNames } = order.user.profile || {};
-      const orderedBy = `${title ? `${title} ` : ""}${firstNames} ${lastNames}${
-        otherNames ? ` (${otherNames})` : ""
-      }`;
+      const name = `${title ? `${title} ` : ""}${firstNames} ${lastNames}`;
       const {
         ceilidhQty,
         concertQty,
@@ -205,7 +203,10 @@ export const salesOrdersRouter = t.router({
       } = order.orderDetails as OrderDetails;
       return {
         orderId: order.id,
-        orderedBy,
+        orderedBy: {
+          name,
+          otherNames,
+        },
         ceilidhQty,
         concertQty,
         dinnerQty,

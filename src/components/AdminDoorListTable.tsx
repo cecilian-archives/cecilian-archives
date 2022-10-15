@@ -75,7 +75,9 @@ const AdminDoorListTable: React.FC<DoorListTableProps> = ({ orders }) => {
                         {order.orderId}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                        {order.orderedBy}
+                        {order.orderedBy.name}
+                        {order.orderedBy.otherNames ? <br /> : null}
+                        {order.orderedBy.otherNames ? `(${order.orderedBy.otherNames})` : ""}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-600">
                         {order.ceilidhQty}
@@ -86,7 +88,7 @@ const AdminDoorListTable: React.FC<DoorListTableProps> = ({ orders }) => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-600">
                         {order.dinnerQty}
                       </td>
-                      <td className="whitespace-pre-line px-3 py-4 text-sm text-gray-600">
+                      <td className="whitespace-pre-line px-3 py-4 text-sm text-gray-900">
                         <ul>
                           {order.dinnerNames?.map((name, idx) => (
                             <li key={idx}>{name}</li>
