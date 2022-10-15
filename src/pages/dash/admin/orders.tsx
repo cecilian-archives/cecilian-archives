@@ -9,6 +9,7 @@ import AdminDoorListTable from "src/components/AdminDoorListTable";
 import { Checkbox, TextField } from "src/components/formFields";
 import LoadingIndicator from "src/components/LoadingIndicator";
 import { trpc } from "src/utils/trpc";
+import { downloadCSV } from "src/utils/downloadCSV";
 
 type OrderList = inferProcedureOutput<AppRouter["salesOrders"]["getDoorLists"]>;
 
@@ -160,7 +161,24 @@ const AdminOrders: NextPageWithLayout = () => {
             </form>
             <div className="py-4 text-lg text-center w-full flex flex-col md:flex-row justify-between items-center gap-3 md:gap-6">
               <p>
-                Showing {filteredOrders?.length || 0} of {stats?.totalOrders || 0} orders
+                Showing {filteredOrders?.length || 0} of {stats?.totalOrders || 0} orders.{" "}
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadCSV(
+                      filteredOrders.map((order) => ({
+                        ...order,
+                        orderedBy: `${order.orderedBy.name}${
+                          order.orderedBy.otherNames ? ` (${order.orderedBy.otherNames})` : ""
+                        }`,
+                      })),
+                      `70thOrders_${new Date().toISOString().replace(/[-:\.]/g, "")}.csv`
+                    )
+                  }
+                  className="font-bold text-archiveBlue-500 hover:text-archiveBlue-700 underline cursor-pointer"
+                >
+                  Export
+                </button>
               </p>
               <p>
                 <b>Attendees</b>: <br className="md:hidden" />
