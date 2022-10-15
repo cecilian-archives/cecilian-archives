@@ -103,7 +103,7 @@ const AdminOrders: NextPageWithLayout = () => {
   return (
     <section className="w-full bg-archiveBlue-50 p-8 flex flex-col items-center md:max-w-full md:justify-between">
       <div className="w-full max-w-7xl mx-auto">
-        <h2 className="text-gray-900 text-4xl pt-4 pb-2">Orders</h2>
+        <h2 className="text-gray-900 text-4xl pt-4 pb-2">Order Admin</h2>
 
         {!orders.isFetched ? (
           <div className="flex justify-center items-center gap-4 py-8">
@@ -113,7 +113,12 @@ const AdminOrders: NextPageWithLayout = () => {
         ) : (
           <>
             <form
-              onSubmit={handleSubmit(() => {})}
+              onSubmit={handleSubmit((_formValues, event) => {
+                const inputElements: HTMLInputElement[] = Array.from(
+                  event?.target.getElementsByTagName("input")
+                );
+                inputElements.forEach((element) => element.blur());
+              })}
               noValidate
               className="py-4 w-full flex flex-col md:flex-row justify-between items-center gap-3 md:gap-12"
             >
