@@ -164,4 +164,57 @@ export const salesOrdersRouter = t.router({
       }
     }, []);
   }),
+  getDoorLists: t.procedure.query(async ({ ctx }) => {
+    const nestedAttendees = await ctx.prisma.salesOrder.findMany({
+      where: {
+        paymentConfirmed: true,
+      },
+      select: {
+        id: true,
+        user: {
+          select: {
+            profile: {
+              select: {
+                id: true,
+                title: true,
+                firstNames: true,
+                lastNames: true,
+                otherNames: true,
+              },
+            },
+          },
+        },
+        orderDetails: true,
+        createdAt: true,
+      },
+      orderBy: [{ createdAt: "desc" }],
+    });
+    const orderList = nestedAttendees.map((order) => {
+      const { title, firstNames, lastNames, otherNames } = order.user.profile || {};
+      const orderedBy = `${title ? `${title} ` : ""}${firstNames} ${lastNames}${
+        otherNames ? ` (${otherNames})` : ""
+      }`;
+      const {
+        ceilidhQty,
+        concertQty,
+        dinnerQty,
+        dinnerFirstNames,
+        dinnerLastNames,
+        specialReqs,
+        seatingReqs,
+      } = order.orderDetails as OrderDetails;
+      return {
+        orderId: order.id,
+        orderedBy,
+        ceilidhQty,
+        concertQty,
+        dinnerQty,
+        dinnerNames: dinnerFirstNames?.map((fName, idx) => `${fName} ${dinnerLastNames?.[idx]}`),
+        requirements: specialReqs,
+        seating: seatingReqs,
+        orderedAt: order.createdAt,
+      };
+    });
+    return orderList;
+  }),
 });
