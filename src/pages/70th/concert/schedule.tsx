@@ -38,6 +38,16 @@ const ConcertSchedule70th: NextPageWithLayout = () => {
             Solo parts in the concert have now been cast, and Concert Director Izzy will have been
             in touch with you directly if this applies.
           </p>
+          <div className="w-full flex items-center justify-start max-w-prose">
+            <ButtonLink
+              to="/70th/concert/setlist"
+              variant="solid"
+              colour="primary"
+              className="mb-3"
+            >
+              View the Final Setlist
+            </ButtonLink>
+          </div>
           <p className="text-lg py-2 max-w-prose">
             For full company numbers in the concert, these are being run as <b>open chorus</b>{" "}
             rehearsals over the weekend, beginning at 12:30pm on Friday and 11:00am on Saturday. You

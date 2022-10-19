@@ -85,8 +85,8 @@ const Schedule70th: NextPageWithLayout = () => {
                 <i>Friday 21st and Saturday 22nd October</i>.
               </p>
               <p className="text-lg py-2">
-                More information on locations, timings and how rehearsals will work is detailed on a
-                separate page.
+                More information on locations, timings and how rehearsals will work is detailed
+                separately:
               </p>
               <div className="w-full flex items-center justify-start">
                 <ButtonLink
