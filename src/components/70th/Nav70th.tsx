@@ -9,7 +9,8 @@ import classNames from "src/utils/classNames";
 
 const navItems = [
   { href: "/70th", name: "Events" },
-  { href: "/70th/concert", name: "Concert" },
+  { href: "/70th/schedule", name: "Schedule" },
+  { href: "/70th/concert/schedule", name: "Concert" },
   { href: "/70th/tickets", name: "Tickets" },
   { href: "/70th/attendees", name: "Attendees" },
   { href: "/70th/contact", name: "Get In Touch" },
