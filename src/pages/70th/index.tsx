@@ -117,13 +117,14 @@ const Home70th: NextPageWithLayout = () => {
 
       <section className="w-full bg-archiveBlue-50 p-8 px-2 flex flex-col items-center md:max-w-full md:justify-between">
         <div className="max-w-prose mx-4">
-          <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">Book Your Tickets</h2>
+          <h2 className="text-gray-900 text-4xl text-center pt-4 pb-2">View the Schedule</h2>
           <p className="text-center text-lg py-4">
-            Tickets for each of the anniversary events are now available!
+            The anniversary weekend is nearly with us, and details of how it will run are now
+            available!
           </p>
         </div>
-        <ButtonLink to="/70th/tickets" variant="solid" colour="secondary" className="mb-6">
-          Ticket Info
+        <ButtonLink to="/70th/schedule" variant="solid" colour="secondary" className="mb-6">
+          Weekend Schedule
         </ButtonLink>
       </section>
     </>
