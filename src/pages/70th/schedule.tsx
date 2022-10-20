@@ -149,7 +149,7 @@ const Schedule70th: NextPageWithLayout = () => {
           </p>
           <div className="w-full flex items-center justify-start max-w-prose">
             <ButtonLink to="/dash/orders" variant="solid" colour="primary" className="mb-6">
-              Your Tickets
+              Your Orders
             </ButtonLink>
           </div>
         </div>
@@ -157,7 +157,7 @@ const Schedule70th: NextPageWithLayout = () => {
 
       <section className="w-full bg-archiveYellow-50 p-8">
         <div className="w-full max-w-screen-sm mx-auto flex flex-col items-center justify-center">
-          <h2 className="text-gray-900 text-3xl pt-4 pb-2 max-w-prose">
+          <h2 className="text-gray-900 text-3xl pt-4 pb-2 text-center max-w-prose">
             Any outstanding questions?
           </h2>
           <div className="w-full flex items-center justify-center max-w-prose">

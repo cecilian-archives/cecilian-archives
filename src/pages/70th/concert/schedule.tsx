@@ -144,7 +144,7 @@ const ConcertSchedule70th: NextPageWithLayout = () => {
 
       <section className="w-full bg-archiveBlue-50 p-8">
         <div className="w-full max-w-screen-sm mx-auto flex flex-col items-center justify-center">
-          <h2 className="text-gray-900 text-2xl pt-4 pb-2 max-w-prose">
+          <h2 className="text-gray-900 text-2xl pt-4 pb-2 text-center max-w-prose">
             We can't wait to see you there!
           </h2>
           <div className="w-full flex items-center justify-center max-w-prose">
