@@ -15,7 +15,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           performing each number.
         </p>
         <p className="py-2">
-          Numbers with <span className="text-archiveYellow-900">Cecilian Chorus</span> in the cast
+          Numbers with <span className="text-archiveYellow-800">Cecilian Chorus</span> in the cast
           are, in the Cecilian spirit, open chorus - meaning that if you'd like to take part in it,
           you can!
         </p>
@@ -27,12 +27,12 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
           <li>
             <b>G&amp;S Medley</b>{" "}
             <span className="text-sm">
-              (Hail Poetry - The Pirates of Penzance; Ring Out Ye Bells - The Sorcerer; Over the
-              Bright Blue Sea - HMS Pinafore; Dance a Cachuca - The Gondoliers)
+              (Hail Poetry, <i>The Pirates of Penzance</i>; Ring Out Ye Bells, <i>The Sorcerer</i>;
+              Over the Bright Blue Sea, <i>HMS Pinafore</i>; Dance a Cachuca, <i>The Gondoliers</i>)
             </span>
             <br />
             <span className="text-sm text-gray-500">
-              (<span className="text-archiveYellow-900">Cecilian Chorus</span> with short solo from
+              (<span className="text-archiveYellow-800">Cecilian Chorus</span> with short solo from
               Ben Galloway)
             </span>
           </li>
@@ -58,7 +58,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <b>Morning Glow</b>, <i>Pippin</i>
             <br />
             <span className="text-sm text-gray-500">
-              (John Paul Liddle and <span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              (John Paul Liddle and <span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
           <li>
@@ -91,7 +91,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <span className="text-sm text-gray-500">
               (Olivia Attwooll-Keith, Luke Seawright, Sam Pirie, Jamie Maskall, Robyn Hunter, Sean
               Taheny, Alice Sufferin and{" "}
-              <span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              <span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
         </ol>
@@ -105,7 +105,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <br />
             <span className="text-sm text-gray-500">
               (Lucy Docherty, Sage Shaw and{" "}
-              <span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              <span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
           <li>
@@ -132,7 +132,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <b>Too Darn Hot</b>, <i>Kiss Me Kate</i>
             <br />
             <span className="text-sm text-gray-500">
-              (James Woods and <span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              (James Woods and <span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
           <li>
@@ -158,7 +158,7 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             <b>Sit Down You're Rocking the Boat</b>, <i>Guys and Dolls</i>
             <br />
             <span className="text-sm text-gray-500">
-              (Alex Lyne and <span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              (Alex Lyne and <span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
           <li>
@@ -170,10 +170,10 @@ const ConcertSetlist70th: NextPageWithLayout = () => {
             </span>
           </li>
           <li>
-            <b>We Go Together</b>, <i>Grease (Cecilians Version)</i>
+            <b>We Go Together</b>, <i>Grease</i> (Cecilian Edition)
             <br />
             <span className="text-sm text-gray-500">
-              (<span className="text-archiveYellow-900">Cecilian Chorus</span>)
+              (<span className="text-archiveYellow-800">Cecilian Chorus</span>)
             </span>
           </li>
         </ol>
